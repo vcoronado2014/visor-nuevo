@@ -36,59 +36,59 @@ export class HomeComponent implements OnInit {
           "descripcion": "",
           "estado": "",
           "tipo": "",
-          "elemento": [{
-            "0": {
+          "elemento": [
+            {
               "nombre": "Consulta otras morbilidades",
               "descripcion": "",
               "estado": "",
               "tipo": "",
               "elemento": []
             },
-            "1": {
+            {
               "nombre": "Holter de presión arterial",
               "descripcion": "",
               "estado": "",
               "tipo": "",
               "elemento": []
             },
-            "2": {
+            {
               "nombre": "Monitoreo continuo de presión arterial",
               "descripcion": "",
               "estado": "",
               "tipo": "",
               "elemento": []
             }
-          }]
+          ]
         },
         {
           "nombre": "Funcionario Prestador",
           "descripcion": "",
           "estado": "",
           "tipo": "",
-          "elemento": [{
-            "0": {
+          "elemento": [
+            {
               "nombre": "Orellana Ibarra Elias, Médico",
               "descripcion": "",
               "estado": "",
               "tipo": "",
               "elemento": []
             }
-          }]
+          ]
         },
         {
           "nombre": "Establecimiento",
           "descripcion": "",
           "estado": "",
           "tipo": "",
-          "elemento": [{
-            "0": {
+          "elemento": [
+            {
               "nombre": "RAYENSALUD [CESFAM]",
               "descripcion": "",
               "estado": "",
               "tipo": "",
               "elemento": []
             }
-          }]
+          ]
         }
       ]
     },
@@ -116,89 +116,88 @@ export class HomeComponent implements OnInit {
           "descripcion": "",
           "estado": "",
           "tipo": "",
-          "elemento": [{
-            "0": {
+          "elemento": [ {
               "nombre": "Ibuprofeno Compimidos 400 Mg : 1 compimido cada 8 horas...",
               "descripcion": "",
               "estado": "",
               "tipo": "",
               "elemento": []
             }
-          }]
+          ]
         },
         {
           "nombre": "Receta",
           "descripcion": "",
           "estado": "",
           "tipo": "",
-          "elemento": [{
-            "0": {
+          "elemento": [ {
               "nombre": "Receta Nro. 204850565, generada 07-11-2017 ",
               "descripcion": "Tipo Morbilidad, Estado Caducada",
               "estado": "",
               "tipo": "",
-              "elemento": [{
-                "0": {
+              "elemento": [
+                {
                   "nombre": "Prescripción",
                   "descripcion": "",
                   "estado": "",
                   "tipo": "",
-                  "elemento": [{
-                    "nombre": "Ibuprofeno Compimidos 400 Mg : 1 compimido cada 8 horas...",
-                    "descripcion": "",
-                    "estado": "",
-                    "tipo": "",
-                    "elemento": []
-                  }]
+                  "elemento": [
+                    {
+                      "nombre": "Ibuprofeno Compimidos 400 Mg : 1 compimido cada 8 horas...",
+                      "descripcion": "",
+                      "estado": "",
+                      "tipo": "",
+                      "elemento": []
+                    }]
                 }
-              }]
+              ]
             }
-          }]
+          ]
         },
         {
           "nombre": "Actividad",
           "descripcion": "",
           "estado": "",
           "tipo": "",
-          "elemento": [{
-            "0": {
+          "elemento": [
+             {
               "nombre": "Consulta de morbilidad odontológica",
               "descripción": "",
               "estado": "",
               "tipo": "",
               "elemento": []
             }
-          }]
+          ]
         },
         {
           "nombre": "Funcionario Prestador",
           "descripcion": "",
           "estado": "",
           "tipo": "",
-          "elemento": [{
-            "0": {
+          "elemento": [
+            {
               "nombre": "RAYEN RAYEN administrador, odontólogo",
               "descripcion": "",
               "estado": "",
               "tipo": "",
               "elemento": []
             }
-          }]
+          ]
         },
         {
           "nombre": "Establecimiento",
           "descripcion": "",
           "estado": "",
           "tipo": "",
-          "elemento": [{
-            "0": {
+          "elemento": [
+            {
               "nombre": "RAYENSALUD [CESFAM]",
               "descripcion": "",
               "estado": "",
               "tipo": "",
               "elemento": []
             }
-          }]
+          ]
         }
       ]
     }
@@ -234,6 +233,15 @@ export class HomeComponent implements OnInit {
     return this.sistema;
   }	
  
-  
+  evento(e) {
+    console.log(e.srcElement.firstElementChild.id);
+    if(document.getElementById(e.srcElement.firstElementChild.id).classList.contains('fa-plus-square')){
+      document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-plus-square'); 
+      document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-minus-square'); 
+    } else {
+      document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-plus-square'); 
+      document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-minus-square'); 
+    }
+  }
 
 }
