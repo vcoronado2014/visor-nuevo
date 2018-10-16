@@ -8,10 +8,6 @@
   </nav>
 </div>
 
-<!-- <div class="collapsible-header" (click)="showFirst=!showFirst">
-  <i class="far fa-plus-square" *ngIf="!showFirst"></i>
-    <i class="far fa-minus-square" *ngIf="showFirst"></i>
-</div> -->
 
 <div *ngFor="let atc of resumen; let i = index" class="container">
   <span data-toggle="collapse" [attr.data-target]="'#primero-'+ i" (click)="evento($event)">
