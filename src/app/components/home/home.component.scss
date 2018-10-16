@@ -8,3 +8,6 @@ ul li{
     pointer-events: none;
 }
 
+.padre div:nth-child(odd) {
+    background-color: #ccc;
+ }
