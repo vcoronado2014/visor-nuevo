@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   sistema;
   resumen = [
     {
+      "id":  1,
       "nombre": "Influenza debida a virus no identificado",
       "descripcion": "",
       "estado": "",
@@ -93,6 +94,7 @@ export class HomeComponent implements OnInit {
       ]
     },
     {
+      "id":  2,
       "nombre": "No informado (Confirmada)",
       "descripcion": "",
       "estado": "",
@@ -202,6 +204,7 @@ export class HomeComponent implements OnInit {
       ]
     },
     {
+      "id":  3,
       "nombre": "Gripe porcina",
       "descripcion": "",
       "estado": "",
@@ -314,7 +317,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: ActivatedRoute
-  ) { 
+  ) {
 
   }
 
@@ -333,25 +336,25 @@ export class HomeComponent implements OnInit {
   }
 
   selectorSistema(sistema) {
-    if(sistema == '1') {  	  
+    if(sistema == '1') {
       this.sistema = 'rayen'
 
     } else if(sistema == '2') {
       this.sistema = 'urgencia'
     }
     return this.sistema;
-  }	
- 
+  }
+
   evento(e, p) {
     /* console.log(e.srcElement.firstElementChild.id); */
     /* console.log(p.elemento.length); */
-    if(p.elemento.length > 0) {   
+    if(p.elemento.length > 0) {
       if(document.getElementById(e.srcElement.firstElementChild.id).classList.contains('fa-plus-square')){
-        document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-plus-square'); 
-        document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-minus-square'); 
+        document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-plus-square');
+        document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-minus-square');
       } else {
-        document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-plus-square'); 
-        document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-minus-square'); 
+        document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-plus-square');
+        document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-minus-square');
       }
     }
   }
