@@ -11,6 +11,7 @@ declare var $:any;
 })
 export class HomeComponent implements OnInit {
   sistema;
+  b;
   resumen = [
     {
       "id":  1,
@@ -333,6 +334,21 @@ export class HomeComponent implements OnInit {
       });
       this.selectorSistema(this.sistema);
       console.log(this.resumen);
+
+  }
+  ngAfterViewInit() {
+    var li = document.getElementsByTagName('li');
+    this.b = true;
+    for (let x = 0; x < li.length; x++) {
+      const element = li[x];
+
+      this.b = !this.b;
+      if (this.b) {
+          $(element).css("background-color", "rgb(240, 236, 236)");
+      } else {
+          $(element).css("background-color", "rgb(241, 213, 213)");
+      }
+    }
   }
 
   selectorSistema(sistema) {
