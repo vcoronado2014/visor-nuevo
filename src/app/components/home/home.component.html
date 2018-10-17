@@ -10,6 +10,7 @@
 
 <ul>
   <ng-template ngFor let-atc [ngForOf]="resumen" let-i="index">
+      <ul>
       <li data-toggle="collapse" [attr.data-target]="'#primero-'+ atc.id" (click)="evento($event, atc)">
         <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+ i" *ngIf="atc.elemento.length > 0"></i> {{atc.nombre}} 1° ({{atc.elemento.length}})
       </li>
@@ -27,7 +28,7 @@
         </ul>
     </ng-template>
   </ul>
-
+</ul>
   </ng-template>
 </ul>
   <!-- <div *ngFor="let atc of resumen; let i = index" class="container padre">
