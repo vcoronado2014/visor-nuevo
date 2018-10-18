@@ -8,6 +8,9 @@ li{
     pointer-events: none;
 }
 
+/* .items {
+ border: 1px gray dotted; 
+} */
 .items:nth-of-type(odd) {
     background-color: rgb(241, 239, 239);
  }

@@ -343,8 +343,8 @@ export class HomeComponent implements OnInit {
   }	
  
   evento(e, p) {
-    /* console.log(e.srcElement.firstElementChild.id); */
-    console.log(p);
+   /*  console.log(e.srcElement.firstElementChild.id);
+    console.log(p); */
     if(p.elemento.length > 0) {   
       if(document.getElementById(e.srcElement.firstElementChild.id).classList.contains('fa-plus-square')){
         document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-plus-square'); 
