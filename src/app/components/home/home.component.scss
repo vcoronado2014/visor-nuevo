@@ -1,6 +1,6 @@
 
 
-ul li{
+li{
     list-style-type: none;
 }
 
@@ -9,10 +9,10 @@ ul li{
 }
 
 .items:nth-of-type(odd) {
-    background-color: rgb(223, 222, 222);
+    background-color: rgb(241, 239, 239);
  }
 .items:nth-of-type(even) {
-    background-color: rgb(241, 213, 213);
+    background-color: #fff;
  }
 
  .two li:nth-of-type(odd) {

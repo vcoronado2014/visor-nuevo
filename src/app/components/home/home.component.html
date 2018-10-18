@@ -1,63 +1,92 @@
-<!-- As a heading -->
-<div class={{sistema}}>
-  <nav class="navbar navbar-light" class='header'>
-    <span class="navbar-brand mb-0 h1">Título</span>
-  </nav>
-  <nav class="navbar navbar-light bg-light" class='subHeader'>
-    <span class="navbar-brand mb-0 h1">Subtítulo</span>
-  </nav>
-</div>
+  <!-- As a heading -->
+  <div class={{sistema}}>
+    <nav class="navbar navbar-light" class='header'>
+      <span class="navbar-brand mb-0 h1">Título</span>
+    </nav>
+    <nav class="navbar navbar-light bg-light" class='subHeader'>
+      <span class="navbar-brand mb-0 h1">Subtítulo</span>
+    </nav>
+  </div>
 
-
-<div *ngFor="let atc of resumen; let i = index" class="container padre">
-  <div class="items" data-toggle="collapse" [attr.data-target]="'#primero-'+ i" (click)="evento($event, atc)">
-    <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+ i" *ngIf="atc.elemento.length > 0"></i> {{atc.nombre}} 1° ({{atc.elemento.length}})</div>
-  <ul class="collapse" [attr.id]="'primero-'+ i">
-    <li *ngFor="let dts of atc.elemento; let e = index" >
-      <div class="items" data-toggle="collapse" [attr.data-target]="'#segundo-'+i+e" (click)="evento($event, dts)">
-          <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+ i+e" [attr.id]="'icono-'+ i+e" *ngIf="dts.elemento.length > 0"></i> {{dts.nombre}} 2° ({{dts.elemento.length}})</div>
-
-      <div *ngIf="dts.elemento">
-        <ul  class="collapse" [attr.id]="'segundo-'+i+e"> 
-          <li *ngFor="let ins of dts.elemento; let j = index">
-            <div class="items" data-toggle="collapse" [attr.data-target]="'#tercero-'+i+e+j" (click)="evento($event, ins)">
-                <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+ i+e+j" *ngIf="ins.elemento.length > 0"></i> {{ins.nombre}} 3° ({{ins.elemento.length}}) </div>
-
-            <div *ngIf="ins.elemento.length > 0">
-              <ul class="collapse" [attr.id]="'tercero-'+i+e+j">
-                <li *ngFor="let elem of ins.elemento; let k = index">
-                  <div class="items" data-toggle="collapse" [attr.data-target]="'#cuarto-' +i+e+j+k" (click)="evento($event, elem)">
-                      <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+ i+e+j+k" *ngIf="elem.elemento.length > 0"></i> {{elem.nombre}} 4° ({{elem.elemento.length}})</div>
-                  
-                  <div *ngIf="elem.elemento.length > 0">
-                    <ul class="collapse" [attr.id]="'cuarto-' +i+e+j+k">
-                      <li *ngFor="let el of elem.elemento">
-                        <p>{{el.nombre}} 5° ({{el.elemento.length}})</p>  
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            
-          </li>
-        </ul>   
-      </div>
-
+<div class="container mt-4">
+  <ng-template ngFor let-atc [ngForOf]="resumen" let-i="index">
+    <li class="items" data-toggle="collapse" [attr.data-target]="'#primero-'+ i" (click)="evento($event, atc)">
+      <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+ i" *ngIf="atc.elemento.length > 0"></i> {{atc.nombre}} 1° ({{atc.elemento.length}}) 
     </li>
-  </ul>
+    
+    <ng-container *ngIf="atc.elemento.length > 0">
+      <ng-template ngFor let-dts [ngForOf]="atc.elemento" let-e="index">
+        <li class="items collapse ml-4" data-toggle="collapse" [attr.id]="'primero-'+ i" [attr.data-target]="'#segundo-'+ i+e" (click)="evento($event, dts)">
+          <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+i+e" *ngIf="dts.elemento.length > 0"></i> {{dts.nombre}} 2° ({{dts.elemento.length}}) 
 
-</div>
+          <ng-container *ngIf="dts.elemento.length > 0">
+            <ul class="collapse" [attr.id]="'segundo-'+i+e">
+              <ng-template ngFor let-ins [ngForOf]="dts.elemento" let-j="index">
+                <li class=" ml-5" data-toggle="collapse" [attr.data-target]="'#tercero-'+ i+e+j" (click)="evento($event, ins)">
+                  <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+i+e+j" *ngIf="ins.elemento.length > 0"></i> {{ins.nombre}} 3° ({{ins.elemento.length}}) 
 
-<div>
-  <ul class="two">
-    <li>One</li>
-    <li>Two</li>
-    <li>Three</li>
-    <li>Four</li>
-    <li>Five</li>
-    <li>Six</li>
-    <li>Seven</li>
-    <li>Eight</li>
-  </ul>
+                  <div *ngIf="ins.elemento.length > 0">
+                      <ul class="collapse" [attr.id]="'tercero-'+i+e+j">
+                        <li class="items" *ngFor="let elem of ins.elemento; let k = index">
+                          <div data-toggle="collapse" [attr.data-target]="'#cuarto-' +i+e+j+k" (click)="evento($event, elem)">
+                              <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+ i+e+j+k" *ngIf="elem.elemento.length > 0"></i> {{elem.nombre}} 4° ({{elem.elemento.length}})</div>
+    
+                          <div *ngIf="elem.elemento.length > 0">
+                            <ul class="collapse" [attr.id]="'cuarto-' +i+e+j+k">
+                              <li class="items" *ngFor="let el of elem.elemento">
+                                <p>{{el.nombre}} 5° ({{el.elemento.length}})</p>
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
+
+                </li> 
+              </ng-template>
+            </ul>
+          </ng-container>
+
+        </li> 
+      </ng-template>
+    </ng-container>
+    
+
+      <!-- <ul class="collapse" [attr.id]="'primero-'+ i">
+        <li class="items" *ngFor="let dts of atc.elemento; let e = index" >
+          <div data-toggle="collapse" [attr.data-target]="'#segundo-'+i+e" (click)="evento($event, dts)">
+              <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+ i+e" *ngIf="dts.elemento.length > 0"></i> {{dts.nombre}} 2° ({{dts.elemento.length}})</div>
+
+          <div *ngIf="dts.elemento">
+            <ul  class="collapse" [attr.id]="'segundo-'+i+e">
+              <li class="items" *ngFor="let ins of dts.elemento; let j = index">
+                <div data-toggle="collapse" [attr.data-target]="'#tercero-'+i+e+j" (click)="evento($event, ins)">
+                    <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+ i+e+j" *ngIf="ins.elemento.length > 0"></i> {{ins.nombre}} 3° ({{ins.elemento.length}}) </div>
+
+                <div *ngIf="ins.elemento.length > 0">
+                  <ul class="collapse" [attr.id]="'tercero-'+i+e+j">
+                    <li class="items" *ngFor="let elem of ins.elemento; let k = index">
+                      <div data-toggle="collapse" [attr.data-target]="'#cuarto-' +i+e+j+k" (click)="evento($event, elem)">
+                          <i class="far fa-plus-square avoid-clicks" [attr.id]="'icono-'+ i+e+j+k" *ngIf="elem.elemento.length > 0"></i> {{elem.nombre}} 4° ({{elem.elemento.length}})</div>
+
+                      <div *ngIf="elem.elemento.length > 0">
+                        <ul class="collapse" [attr.id]="'cuarto-' +i+e+j+k">
+                          <li class="items" *ngFor="let el of elem.elemento">
+                            <p>{{el.nombre}} 5° ({{el.elemento.length}})</p>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+              </li>
+            </ul>
+          </div>
+
+        </li>
+      </ul> -->
+   
+  </ng-template>
 </div>
