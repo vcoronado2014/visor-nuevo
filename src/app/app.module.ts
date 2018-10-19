@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { TreeModule } from 'angular-tree-component';
 // RUTAS
 import { APP_ROUTER } from './app.routes';
 import { RouterModule } from '@angular/router';
@@ -16,7 +17,8 @@ import { HomeComponent } from './components/home/home.component';
   imports: [
     BrowserModule,
     RouterModule.forRoot([]),
-    APP_ROUTER
+    APP_ROUTER,
+    TreeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

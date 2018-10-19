@@ -11,6 +11,31 @@ declare var $:any;
 })
 export class HomeComponent implements OnInit {
   sistema;
+  nodes = [
+    {
+      id: 1,
+      name: 'root1',
+      children: [
+        { id: 2, name: 'child1' },
+        { id: 3, name: 'child2' }
+      ]
+    },
+    {
+      id: 4,
+      name: 'root2',
+      children: [
+        { id: 5, name: 'child2.1' },
+        {
+          id: 6,
+          name: 'child2.2',
+          children: [
+            { id: 7, name: 'subsub' }
+          ]
+        }
+      ]
+    }
+  ];
+  options = {};
   resumen = [
     {
       "nombre": "Influenza debida a virus no identificado",
@@ -136,6 +161,20 @@ export class HomeComponent implements OnInit {
               "estado": "",
               "tipo": "",
               "elemento": [
+                {
+                  "nombre": "Prescripción",
+                  "descripcion": "",
+                  "estado": "",
+                  "tipo": "",
+                  "elemento": [
+                    {
+                      "nombre": "Ibuprofeno Compimidos 400 Mg : 1 compimido cada 8 horas...",
+                      "descripcion": "",
+                      "estado": "",
+                      "tipo": "",
+                      "elemento": []
+                    }]
+                },
                 {
                   "nombre": "Prescripción",
                   "descripcion": "",
