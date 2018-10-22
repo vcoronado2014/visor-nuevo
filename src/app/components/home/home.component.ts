@@ -152,6 +152,20 @@ export class HomeComponent implements OnInit {
                       "tipo": "",
                       "elemento": []
                     }]
+                },
+                {
+                  "nombre": "Prescripción",
+                  "descripcion": "",
+                  "estado": "",
+                  "tipo": "",
+                  "elemento": [
+                    {
+                      "nombre": "Ibuprofeno Compimidos 400 Mg : 1 compimido cada 8 horas...",
+                      "descripcion": "",
+                      "estado": "",
+                      "tipo": "",
+                      "elemento": []
+                    }]
                 }
               ]
             }
@@ -314,15 +328,18 @@ export class HomeComponent implements OnInit {
     return this.sistema;
   }	
  
-  evento(e) {
-    console.log(e.srcElement.firstElementChild.id);
-    if(document.getElementById(e.srcElement.firstElementChild.id).classList.contains('fa-plus-square')){
-      document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-plus-square'); 
-      document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-minus-square'); 
-    } else {
-      document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-plus-square'); 
-      document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-minus-square'); 
-    }
-  }
+  evento(e, p) {
+    /*  console.log(e.srcElement.firstElementChild.id);
+     console.log(p); */
+     if(p.elemento.length > 0) {   
+       if(document.getElementById(e.srcElement.firstElementChild.id).classList.contains('fa-plus-square')){
+         document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-plus-square'); 
+         document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-minus-square'); 
+       } else {
+         document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-plus-square'); 
+         document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-minus-square'); 
+       }
+     }
+   }
 
 }
