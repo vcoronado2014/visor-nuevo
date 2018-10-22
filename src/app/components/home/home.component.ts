@@ -289,46 +289,10 @@ export class HomeComponent implements OnInit {
   obtenerResumenPaciente(tokenSession, idRyf, run){
     this.visor.getSummary(tokenSession, idRyf, run).subscribe(
       dataSummary => {
+        //aca estoy trabajando con los datos VC
         var listaSummary = dataSummary.json();
-        this.cantidadHistorial = 0;
-        this.tieneHistorial = false;
-
-        if (listaSummary) {
-          if (listaSummary.ObtenerResumenHistorialClinicoResult.RespuestaBase.Status == 0) {
-            if (listaSummary.ObtenerResumenHistorialClinicoResult) {
-              if (listaSummary.ObtenerResumenHistorialClinicoResult.ResumenHistorial) {
-
-                this.cantidadHistorial = listaSummary.ObtenerResumenHistorialClinicoResult.ResumenHistorial.ResumenHistorial.length;
-                this.tieneHistorial = true;
 
 
-              }
-              else {
-                //no tiene historial
-                this.cantidadHistorial = 0;
-                this.tieneHistorial = false;
-              }
-            }
-            else {
-              //no tiene historial
-              this.cantidadHistorial = 0;
-              this.tieneHistorial = false;
-
-            }
-          }
-          else {
-            //no tiene historial
-            this.cantidadHistorial = 0;
-            this.tieneHistorial = false;
-          }
-
-        }
-        else {
-          //no tiene historial
-          cantidadHistorial = 0;
-          tieneHistorial = false;
-
-        }
       },
       err => {
         console.error(err);
