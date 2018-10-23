@@ -57,7 +57,7 @@ export class ServicioVisorService {
       obtenerFechaSinHoraRestada(){
         var retorno = "20180510";
          var fecha = new Date();
-         var anio = fecha.getFullYear() - 3;
+         var anio = fecha.getFullYear() - 2;
          var mes = fecha.getMonth() + 1;
          var dia = fecha.getDate();
    

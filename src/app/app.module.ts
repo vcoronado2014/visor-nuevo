@@ -14,12 +14,19 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 //Servicios
 import { ServicioVisorService } from './services/servicio-visor.service';
+import { SicComponent } from './components/sic/sic.component';
+import { ExamenesComponent } from './components/examenes/examenes.component';
+import { LmeComponent } from './components/lme/lme.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    SicComponent,
+    ExamenesComponent,
+    LmeComponent
   ],
   imports: [
     BrowserModule,

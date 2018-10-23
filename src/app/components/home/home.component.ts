@@ -14,6 +14,7 @@ declare var $:any;
 })
 export class HomeComponent implements OnInit {
   sistema;
+/*
   resumen = [
     {
       "nombre": "Influenza debida a virus no identificado",
@@ -205,6 +206,7 @@ export class HomeComponent implements OnInit {
       ]
     }
   ];
+*/
   identificacion;
   tipoIdentificacion;
   idRyf;
@@ -251,15 +253,15 @@ export class HomeComponent implements OnInit {
        this.idRyf = atob(params.IdRyf);
        this.tokenAcceso = params.TokenAcceso;
        this.obtenerTokenSesion(this.tokenAcceso);
-       sessionStorage.setItem("IDENTIFICACION", this.identificacion);
-       sessionStorage.setItem("TIPO_IDENTIFICACION", this.tipoIdentificacion);
-       sessionStorage.setItem("ID_RYF", this.idRyf);
+       //sessionStorage.setItem("IDENTIFICACION", this.identificacion);
+       //sessionStorage.setItem("TIPO_IDENTIFICACION", this.tipoIdentificacion);
+       //sessionStorage.setItem("ID_RYF", this.idRyf);
        
        console.log(this.sistema); // 1
      });
 
       this.selectorSistema(this.sistema);
-      console.log(this.resumen);
+      //console.log(this.resumen);
   }
   obtenerTokenSesion(tokenAcceso){
     this.visor.getTokenSession(tokenAcceso).subscribe(
@@ -270,8 +272,15 @@ export class HomeComponent implements OnInit {
           if (listToken.ObtenerTokenSesionResult) {
             if (listToken.ObtenerTokenSesionResult.TokenSesion) {
               this.tokenSession = listToken.ObtenerTokenSesionResult.TokenSesion;
-              sessionStorage.setItem("PARAMETRO_FUC", this.tokenSession);
-              this.obtenerResumenPaciente(this.tokenSession, this.idRyf, this.identificacion);
+              
+              if (this.tokenSession != undefined){
+                sessionStorage.setItem("PARAMETRO_FUC", this.tokenSession);
+                sessionStorage.setItem("IDENTIFICACION", this.identificacion);
+                sessionStorage.setItem("TIPO_IDENTIFICACION", this.tipoIdentificacion);
+                sessionStorage.setItem("ID_RYF", this.idRyf);
+                this.obtenerResumenPaciente(this.tokenSession, this.idRyf, this.identificacion);
+              }
+              
             }
           }
         }
