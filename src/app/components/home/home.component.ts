@@ -215,6 +215,8 @@ export class HomeComponent implements OnInit {
   //historial
   cantidadHistorial;
   tieneHistorial;
+  atenciones;
+
 
   constructor(
     private router: ActivatedRoute,
@@ -243,6 +245,9 @@ export class HomeComponent implements OnInit {
       });
       */
      sessionStorage.clear();
+     //aca seteamos las atenciones
+     this.atenciones = [];
+     //************************** */
      this.router.queryParams
      .subscribe(params => {
        console.log(params); // {sistema: "1"}
@@ -300,8 +305,8 @@ export class HomeComponent implements OnInit {
       dataSummary => {
         //aca estoy trabajando con los datos VC
         var listaSummary = dataSummary.json();
-
-
+        this.atenciones = listaSummary.Elementos;
+        console.log(this.atenciones);
       },
       err => {
         console.error(err);

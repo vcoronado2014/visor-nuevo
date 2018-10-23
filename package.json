@@ -23,11 +23,12 @@
     "@angular/router": "^5.2.0",
     "core-js": "^2.4.1",
     "loading": "^1.13.3",
+    "moment": "^2.22.2",
     "ng2-toastr": "^4.1.2",
     "ngx-loading": "^3.0.1",
     "ngx-modialog": "^5.0.1",
     "rxjs": "^5.5.6",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular/cli": "^1.7.4",
