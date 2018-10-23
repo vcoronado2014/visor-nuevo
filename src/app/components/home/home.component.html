@@ -10,8 +10,8 @@
 
 <div class="container mt-4 mb-4">
   <ng-container *ngFor="let atc of resumen; let i = index" class="container padre">
-    <div class="items" data-toggle="collapse" [attr.data-target]="'#primero-'+ i" (click)="evento($event, atc)">
-      <i class="far fa-plus-square avoid-clicks ml-2" [attr.id]="'icono-'+ i" *ngIf="atc.elemento.length > 0"></i>
+    <div class="items primerCampo" data-toggle="collapse" [attr.data-target]="'#primero-'+ i" (click)="evento($event, atc)">
+      <i class="far fa-plus-square avoid-clicks ml-1" [attr.id]="'icono-'+ i" *ngIf="atc.elemento.length > 0"></i>
       <ng-container *ngIf="atc.tipo == 'florence'"><i class="fas fa-hospital"></i></ng-container>
       <ng-container *ngIf="atc.tipo == 'rayen'"><i class="fas fa-briefcase-medical"></i></ng-container> 
        {{atc.nombre}} 1° ({{atc.elemento.length}})
