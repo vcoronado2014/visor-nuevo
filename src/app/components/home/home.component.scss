@@ -25,16 +25,13 @@ li{
    border: 1px dotted black;
    border-width: 0 0 1px 1px; }
 
- li:last-child { border-bottom: 0px; }
+ /* li.contenedor{ border-bottom: 0px; } */
 
- /* li.empty { font-style: italic;
-   color: silver;
-   border-color: silver;
- } */
  li div { margin: 0;
    background: white;
    position: relative;
    top: 0.7em; 
+   z-index: 9999;
  }
  li ul { 
    border-top: 1px dotted black; 
@@ -45,3 +42,8 @@ li{
    border-left: 1px solid white;
    margin-left: -17px;
  }
+
+ li.conLinea{ border-bottom: 1px dotted black; }
+ li.sinLinea { border-bottom: 0px; }
+
+ .collapsing{ border: 0px;}
