@@ -10,13 +10,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { APP_ROUTER } from './app.routes';
 import { RouterModule } from '@angular/router';
 
+//Componentes
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-//Servicios
-import { ServicioVisorService } from './services/servicio-visor.service';
 import { SicComponent } from './components/sic/sic.component';
 import { ExamenesComponent } from './components/examenes/examenes.component';
 import { LmeComponent } from './components/lme/lme.component';
+
+//Plugin
+import { NgxLoadingModule } from 'ngx-loading';
+
+//Servicios
+import { ServicioVisorService } from './services/servicio-visor.service';
+
 
 
 
@@ -35,7 +41,8 @@ import { LmeComponent } from './components/lme/lme.component';
     BootstrapModalModule,
     ToastModule.forRoot(),
     RouterModule.forRoot([]),
-    APP_ROUTER
+    APP_ROUTER,
+    NgxLoadingModule
   ],
   providers: [ServicioVisorService],
   bootstrap: [AppComponent]

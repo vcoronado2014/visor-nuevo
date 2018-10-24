@@ -1,4 +1,5 @@
 <!-- As a heading -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
 <div class={{sistema}}>
   <nav class="navbar navbar-light" class='header'>
     <span class="navbar-brand mb-0 h1">Título</span>
@@ -6,16 +7,16 @@
   <nav class="navbar navbar-light bg-light" class='subHeader'>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#atencion" role="tab" aria-controls="atencion" aria-selected="true">Atencion</a>
+        <a class="nav-link" routerLinkActive="active" id="atencion-tab" data-toggle="tab" href="#atencion" role="tab" aria-controls="atencion" aria-selected="true">Atencion</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="sic-tab" data-toggle="tab" href="#sic" role="tab" aria-controls="sic" aria-selected="false">Sic</a>
+        <a class="nav-link" routerLinkActive="active" id="sic-tab" data-toggle="tab" href="#sic" role="tab" aria-controls="sic" aria-selected="false">Sic</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="examenes-tab" data-toggle="tab" href="#examenes" role="tab" aria-controls="examenes" aria-selected="false">Exámenes</a>
+        <a class="nav-link" routerLinkActive="active" id="examenes-tab" data-toggle="tab" href="#examenes" role="tab" aria-controls="examenes" aria-selected="false">Exámenes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="lme-tab" data-toggle="tab" href="#lme" role="tab" aria-controls="lme" aria-selected="false">Lme</a>
+        <a class="nav-link" routerLinkActive="active" id="lme-tab" data-toggle="tab" href="#lme" role="tab" aria-controls="lme" aria-selected="false">Lme</a>
       </li>      
     </ul>
   </nav>
@@ -23,9 +24,9 @@
 
 <div class="tab-content mt-4 container-fluid" id="myTabContent">
   <div class="tab-pane fade show" id="atencion" role="tabpanel" aria-labelledby="atencion-tab" routerLinkActive="active">
-    <ng-container *ngIf="listaSummary">
-      <div *ngFor="let item of listaSummary">
-     <p>Hola</p>
+    <ng-container *ngIf="atenciones">
+      <div *ngFor="let item of atenciones">
+     <p>{{item.Nombre}}</p>
       </div>
     </ng-container>
   </div>

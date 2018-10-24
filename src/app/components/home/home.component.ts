@@ -13,6 +13,7 @@ declare var $:any;
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  public loading = false;
   sistema;
 /*
   resumen = [
@@ -216,6 +217,8 @@ export class HomeComponent implements OnInit {
   cantidadHistorial;
   tieneHistorial;
   atenciones;
+  examenes;
+ 
 
 
   constructor(
@@ -226,6 +229,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    $('#atencion-tab').tab('show');
     //hay que ver como capturar el query string
     //la url ahora deberia ser la siguiente
     //esta la original al obtener url de mirth
@@ -246,26 +250,12 @@ export class HomeComponent implements OnInit {
       */
      sessionStorage.clear();
      //aca seteamos las atenciones
+     this.examenes = [];
      this.atenciones = [];
      //************************** */
-     this.router.queryParams
-     .subscribe(params => {
-       console.log(params); // {sistema: "1"}
-      
-       this.sistema = params.sistema;
-       this.identificacion =atob(params.Identification);
-       this.tipoIdentificacion = atob(params.IdentificationType);
-       this.idRyf = atob(params.IdRyf);
-       this.tokenAcceso = params.TokenAcceso;
-       this.obtenerTokenSesion(this.tokenAcceso);
-       //sessionStorage.setItem("IDENTIFICACION", this.identificacion);
-       //sessionStorage.setItem("TIPO_IDENTIFICACION", this.tipoIdentificacion);
-       //sessionStorage.setItem("ID_RYF", this.idRyf);
-       
-       console.log(this.sistema); // 1
-     });
+     this.parametrosQuery();
 
-      this.selectorSistema(this.sistema);
+     this.selectorSistema(this.sistema);
       //console.log(this.resumen);
   }
   obtenerTokenSesion(tokenAcceso){
@@ -299,18 +289,38 @@ export class HomeComponent implements OnInit {
 
     );
   }
+  parametrosQuery(){
+    this.loading = true;
+    this.router.queryParams.subscribe(params => {
+      this.loading = false;
+      console.log(params); // {sistema: "1"}     
+      this.sistema = params.sistema;
+      this.identificacion =atob(params.Identification);
+      this.tipoIdentificacion = atob(params.IdentificationType);
+      this.idRyf = atob(params.IdRyf);
+      this.tokenAcceso = params.TokenAcceso;
+      this.obtenerTokenSesion(this.tokenAcceso);
+      //sessionStorage.setItem("IDENTIFICACION", this.identificacion);
+      //sessionStorage.setItem("TIPO_IDENTIFICACION", this.tipoIdentificacion);
+      //sessionStorage.setItem("ID_RYF", this.idRyf);
+      
+      console.log(this.sistema); // 1
+    });
+  }
   //obtener resumen del paciente
   obtenerResumenPaciente(tokenSession, idRyf, run){
+    this.loading = true;
     this.visor.getSummary(tokenSession, idRyf, run).subscribe(
       dataSummary => {
+        this.loading = false;
         //aca estoy trabajando con los datos VC
         var listaSummary = dataSummary.json();
         this.atenciones = listaSummary.Elementos;
         console.log(this.atenciones);
       },
       err => {
+        this.loading = false;
         console.error(err);
-
       },
       () => {
         console.log('get info summary');
