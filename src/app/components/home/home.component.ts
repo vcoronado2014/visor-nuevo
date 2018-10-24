@@ -208,16 +208,16 @@ export class HomeComponent implements OnInit {
     }
   ];
 */
-  identificacion;
-  tipoIdentificacion;
-  idRyf;
-  tokenAcceso;
-  tokenSession;
+  public identificacion;
+  public tipoIdentificacion;
+  public idRyf;
+  public tokenAcceso;
+  public tokenSession;
   //historial
-  cantidadHistorial;
-  tieneHistorial;
-  atenciones;
-  examenes;
+  public cantidadHistorial;
+  public tieneHistorial;
+  public atenciones;
+  public examenes;
  
 
 
@@ -316,6 +316,9 @@ export class HomeComponent implements OnInit {
         //aca estoy trabajando con los datos VC
         var listaSummary = dataSummary.json();
         this.atenciones = listaSummary.Elementos;
+        this.examenes = listaSummary.OrdenesExamenes;
+        console.log(this.examenes);
+        
         console.log(this.atenciones);
       },
       err => {
