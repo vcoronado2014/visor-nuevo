@@ -22,6 +22,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 
 //Servicios
 import { ServicioVisorService } from './services/servicio-visor.service';
+import { AtencionesComponent } from './components/atenciones/atenciones.component';
 
 
 
@@ -32,7 +33,8 @@ import { ServicioVisorService } from './services/servicio-visor.service';
     HomeComponent,
     SicComponent,
     ExamenesComponent,
-    LmeComponent
+    LmeComponent,
+    AtencionesComponent
   ],
   imports: [
     BrowserModule,

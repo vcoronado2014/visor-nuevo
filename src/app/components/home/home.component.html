@@ -4,7 +4,7 @@
   <nav class="navbar navbar-light" class='header'>
     <span class="navbar-brand mb-0 h1">Título</span>
   </nav>
-  <nav class="navbar navbar-light bg-light" class='subHeader'>
+  <nav class="navbar" class='subHeader'>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link" routerLinkActive="active" id="atencion-tab" data-toggle="tab" href="#atencion" role="tab" aria-controls="atencion" aria-selected="true">Atencion</a>
@@ -23,11 +23,7 @@
 </div>
 <div class="tab-content mt-4 container-fluid" id="myTabContent">
   <div class="tab-pane fade show" id="atencion" role="tabpanel" aria-labelledby="atencion-tab" routerLinkActive="active">
-    <ng-container *ngIf="atenciones">
-      <div *ngFor="let item of atenciones">
-     <p>{{item.Nombre}}</p>
-      </div>
-    </ng-container>
+    <app-atenciones></app-atenciones>
   </div>
   <div class="tab-pane fade" id="sic" role="tabpanel" aria-labelledby="sic-tab" routerLinkActive="active">
     <app-sic></app-sic>

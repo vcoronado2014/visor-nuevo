@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 //servicios
 import { ServicioVisorService } from '../../services/servicio-visor.service';
+//Componentes 
+import { AtencionesComponent } from '../atenciones/atenciones.component';
 
 declare var JQuery :any;
 declare var $:any;
@@ -12,7 +14,10 @@ declare var $:any;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit { 
+
+  @ViewChild(AtencionesComponent) atencion: AtencionesComponent;
+  
   public loading = false;
   sistema;
 /*
@@ -216,10 +221,7 @@ export class HomeComponent implements OnInit {
   //historial
   public cantidadHistorial;
   public tieneHistorial;
-  public atenciones;
-  public examenes;
- 
-
+  
 
   constructor(
     private router: ActivatedRoute,
@@ -249,14 +251,9 @@ export class HomeComponent implements OnInit {
       });
       */
      sessionStorage.clear();
-     //aca seteamos las atenciones
-     this.examenes = [];
-     this.atenciones = [];
-     //************************** */
      this.parametrosQuery();
-
      this.selectorSistema(this.sistema);
-      //console.log(this.resumen);
+
   }
   obtenerTokenSesion(tokenAcceso){
     this.visor.getTokenSession(tokenAcceso).subscribe(
@@ -273,7 +270,7 @@ export class HomeComponent implements OnInit {
                 sessionStorage.setItem("IDENTIFICACION", this.identificacion);
                 sessionStorage.setItem("TIPO_IDENTIFICACION", this.tipoIdentificacion);
                 sessionStorage.setItem("ID_RYF", this.idRyf);
-                this.obtenerResumenPaciente(this.tokenSession, this.idRyf, this.identificacion);
+                this.atencion.obtenerResumenPaciente(this.tokenSession, this.idRyf, this.identificacion);
               }
               
             }
@@ -307,29 +304,7 @@ export class HomeComponent implements OnInit {
       console.log(this.sistema); // 1
     });
   }
-  //obtener resumen del paciente
-  obtenerResumenPaciente(tokenSession, idRyf, run){
-    this.loading = true;
-    this.visor.getSummary(tokenSession, idRyf, run).subscribe(
-      dataSummary => {
-        this.loading = false;
-        //aca estoy trabajando con los datos VC
-        var listaSummary = dataSummary.json();
-        this.atenciones = listaSummary.Elementos;
-        this.examenes = listaSummary.OrdenesExamenes;
-        console.log(this.examenes);
-        
-        console.log(this.atenciones);
-      },
-      err => {
-        this.loading = false;
-        console.error(err);
-      },
-      () => {
-        console.log('get info summary');
-      }
-    );
-  }
+
 
   selectorSistema(sistema) {
     if(sistema == '1') {  	  
@@ -341,15 +316,6 @@ export class HomeComponent implements OnInit {
     return this.sistema;
   }	
  
-  evento(e) {
-    console.log(e.srcElement.firstElementChild.id);
-    if(document.getElementById(e.srcElement.firstElementChild.id).classList.contains('fa-plus-square')){
-      document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-plus-square'); 
-      document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-minus-square'); 
-    } else {
-      document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-plus-square'); 
-      document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-minus-square'); 
-    }
-  }
+
 
 }
