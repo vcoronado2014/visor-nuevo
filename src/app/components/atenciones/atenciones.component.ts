@@ -56,14 +56,45 @@ export class AtencionesComponent implements OnInit {
       }
     );
   }
-  evento(e) {
-    console.log(e.srcElement.firstElementChild.id);
-    if(document.getElementById(e.srcElement.firstElementChild.id).classList.contains('fa-plus-square')){
-      document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-plus-square'); 
-      document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-minus-square'); 
-    } else {
-      document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-plus-square'); 
-      document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-minus-square'); 
-    }
+  evento(e, p) {
+    /* Evita acciones al hacer click al utlimo elemento */
+    p.Elemento.forEach((ele, i) => {
+      
+      ele.forEach((el, u) => {
+        console.log(el);
+        if(el.Elemento == null){
+          console.log(e.target.nextElementSibling.children[u].id);
+          document.getElementById(e.target.nextElementSibling.children[u].id).classList.add('avoid-clicks');
+        } else{
+          console.log("sin elementos");
+        }
+      });
+      
+    });
+    
+    /* Cambia el icono MAS o MENOS al expandir elemento */
+     if(p.Elemento.length > 0) {   
+       if(document.getElementById(e.srcElement.firstElementChild.id).classList.contains('fa-plus-square')){
+         document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-plus-square'); 
+         document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-minus-square'); 
+
+       } else {
+         document.getElementById(e.srcElement.firstElementChild.id).classList.add('fa-plus-square'); 
+         document.getElementById(e.srcElement.firstElementChild.id).classList.remove('fa-minus-square');
+       } 
+     } 
+
+     /* Agrega o elimina la linea en el ultimo elemento */
+     if(e.srcElement.parentNode.id){
+       /* console.log('conLinea:  '+document.getElementById(e.srcElement.parentNode.id).classList.contains('conLinea')); */
+      if (document.getElementById(e.srcElement.parentNode.id).classList.contains('conLinea')){
+        document.getElementById(e.srcElement.parentNode.id).classList.remove('conLinea');
+        document.getElementById(e.srcElement.parentNode.id).classList.add('sinLinea'); 
+      } else if (document.getElementById(e.srcElement.parentNode.id).classList.contains('sinLinea')) {
+        document.getElementById(e.srcElement.parentNode.id).classList.remove('sinLinea');
+        document.getElementById(e.srcElement.parentNode.id).classList.add('conLinea');    
+      }
+     }
   }
+
 }
