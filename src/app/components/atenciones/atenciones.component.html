@@ -1,3 +1,4 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
 <div class="atenciones">
   <ng-container *ngFor="let atc of atenciones; let i = index">
     <div class="items primerCampo" data-toggle="collapse" [attr.data-target]="'#primero-'+ i" (click)="evento($event, atc)">

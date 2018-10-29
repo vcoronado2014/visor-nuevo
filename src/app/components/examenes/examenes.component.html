@@ -1,3 +1,24 @@
-<p>
-  examenes works!
-</p>
+<div class="table-responsive">
+    <table id="examTable" class="table table-striped table-bordered display table-sm table-hover" style="width:100%">
+        <tbody *ngIf="examenes">
+            <tr *ngFor="let e of examenes">
+              <!-- FECHA HORA -->
+                <td>{{e.FechaHoraTomaMuestra}}</td>
+                 <!--EXAMEN  -->
+                <td>{{e.NombreExamen}}</td>
+                <!-- DETERMINANTE -->
+                <td>{{e.Estado}}</td>
+                <!-- UNIDAD -->
+                <td>{{e.Unidad}}</td>
+                <!-- VALOR -->
+                <td>{{e.Valor}}</td>
+                <!-- vALORES DE REFERENCIA -->
+                <td>{{e.ValoresReferencia}}</td>
+                <!-- VALOR ANORMAL -->
+                <td>{{e.ValorAnormal}}</td>
+                <!-- NUMERO DE ORDEN -->
+                <td>{{e.NumeroOrden}}</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>

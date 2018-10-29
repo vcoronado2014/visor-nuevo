@@ -42,8 +42,6 @@ export class AtencionesComponent implements OnInit {
         //aca estoy trabajando con los datos VC
         var listaSummary = dataSummary.json();
         this.atenciones = listaSummary.Elementos;
-        this.examenes = listaSummary.OrdenesExamenes;
-        console.log(this.examenes);
         
         console.log(this.atenciones);
       },
