@@ -38,7 +38,6 @@ export class ExamenesComponent implements OnInit {
     this.loading = true;
     this.visor.getSummary(tokenSession, idRyf, run).subscribe(
       dataSummary => {
-        //aca estoy trabajando con los datos VC
         var listaSummary = dataSummary.json();
         this.examenes = listaSummary.OrdenesExamenes;
         console.log(this.examenes);  
@@ -52,13 +51,15 @@ export class ExamenesComponent implements OnInit {
                 { title: "Valor", className:'text-left'},
                 { title: "V. de Referencia", className:'text-left'},
                 { title: "V. Anormal", className:'text-left'},
-                { title: "Nº Orden", className:'text-left'}
+                { title: "Nº Orden", className:'text-left'},
+                { title: "F.H. Solicitud", className:'text-left'},
+                { title: "F.H Resultados", className:'text-left'}
             ],
             "info": false,
             "searching": false,
             "lengthMenu":false, 
             "paging": false,
-              select: true,
+             select: true,
             "language": {
               "sProcessing":     "Procesando...",
               "sLengthMenu":     "Mostrar _MENU_ registros",

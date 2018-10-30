@@ -1,5 +1,16 @@
+<div class="filtrado-meses">
+    <p>Meses: </p>
+    <select class="select-meses" id="inputGroupSelect01">
+        <option selected></option>
+        <option value="1">1 mes</option>
+        <option value="2">2 meses</option>
+        <option value="3">3 meses</option>
+        <option value="3">9 meses</option>
+        <option value="3">12 meses</option>        
+    </select>
+</div>
 <div class="table-responsive">
-    <table id="examTable" class="table table-striped table-bordered display table-sm table-hover" style="width:100%">
+    <table id="examTable" class="table table-striped table-bordered display table-sm table-hover nowrap" style="width:100%">
         <tbody *ngIf="examenes">
             <tr *ngFor="let e of examenes">
               <!-- FECHA HORA -->
@@ -15,9 +26,17 @@
                 <!-- vALORES DE REFERENCIA -->
                 <td>{{e.ValoresReferencia}}</td>
                 <!-- VALOR ANORMAL -->
-                <td>{{e.ValorAnormal}}</td>
+                <td>
+                    <div class="text-center">
+                        <input type="checkbox" aria-label="Checkbox for following text input">
+                    </div>
+                </td>
                 <!-- NUMERO DE ORDEN -->
                 <td>{{e.NumeroOrden}}</td>
+                <!-- FECHA HORA SOLICITUD -->
+                <td>{{e.FechaHoraSolicitud}}</td>              
+                <!-- FECHA HORA RESULTADO -->
+                <td>{{e.FechaHoraResultado}}</td>                   
             </tr>
         </tbody>
     </table>

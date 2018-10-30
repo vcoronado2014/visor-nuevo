@@ -67,7 +67,7 @@ export class SicComponent implements OnInit {
   
  tablaSic(){
   $(function(){
-    $('#example').DataTable({
+    $('#tablaSic').DataTable({
       data: this.sic,
       columns: [
           { title: "Estado", className:'text-left '},
