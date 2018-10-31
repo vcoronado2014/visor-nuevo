@@ -15,7 +15,6 @@ declare var $:any;
 })
 export class AtencionesComponent implements OnInit {
 
-
   public token = sessionStorage.getItem("PARAMETRO_FUC");
   public idRyF = sessionStorage.getItem("ID_RYF");
   public run = sessionStorage.getItem("IDENTIFICACION");
