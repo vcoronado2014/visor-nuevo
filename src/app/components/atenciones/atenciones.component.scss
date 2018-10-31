@@ -39,7 +39,7 @@
       background: white;
       position: relative;
       top: 0.7em; 
-      z-index: 9999;
+      z-index: 999;
       cursor: pointer;
     }
     li ul { 
@@ -63,4 +63,10 @@
     .segundoCampo{
       font-weight: 500;
     }
+    /* .resaltar:hover{
+      background-color: black;
+    }
+    .circulo{
+      border-radius: 30px !important;
+    } */
 } 
