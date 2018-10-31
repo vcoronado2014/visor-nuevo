@@ -1,5 +1,6 @@
 import { Component, OnInit,ViewChild  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormsModule }    from '@angular/forms';
 import 'rxjs/add/operator/filter';
 //servicios
 import { ServicioVisorService } from '../../services/servicio-visor.service';
@@ -31,6 +32,9 @@ export class AtencionesComponent implements OnInit {
   public antecedentesFiltrados = [];
   public filtrados = [];
   public paciente = [];
+
+  // variables del front de los filtros
+  public userGlobales;
   
   constructor(
               private router: ActivatedRoute,
@@ -61,14 +65,14 @@ export class AtencionesComponent implements OnInit {
         this.filtroTipoProfesional =  this.filtros.entregaFiltroTipoProfesional(this.atenciones);
         this.filtroEstablecimientos =  this.filtros.entregaFiltroEstablecimiento(this.atenciones);
         this.filtroPeriodo =  this.filtros.entregaFiltroFechas(this.atenciones);
-        /*
+        
         console.log(this.filtrosGlobales);
         console.log(this.filtroAmbito);
         console.log(this.filtroEspecialidad);
         console.log(this.filtroTipoProfesional);
         console.log(this.filtroEstablecimientos);
         console.log(this.filtroPeriodo);
-        */
+       
         this.antecedentesMorbidos = listaSummary.PacienteRayen.AntecedentesMorbidos;
         this.paciente = listaSummary.PacienteFlorence;
         console.log(listaSummary); 
