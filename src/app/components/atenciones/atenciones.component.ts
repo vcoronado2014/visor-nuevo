@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 //servicios
 import { ServicioVisorService } from '../../services/servicio-visor.service';
+import { ServicioFiltros } from '../../services/servicio-filtros';
 
 declare var JQuery :any;
 declare var $:any;
@@ -21,10 +22,16 @@ export class AtencionesComponent implements OnInit {
   public loading = false;
   public atenciones = [];
   public examenes = [];
-  
+  public filtrosGlobales;
+  public filtroAmbito = [];
+  public filtroEspecialidad = [];
+  public filtroTipoProfesional = [];
+  public filtroEstablecimientos = [];
+  public filtroPeriodo = [];
   constructor(
               private router: ActivatedRoute,
-              public visor: ServicioVisorService
+              public visor: ServicioVisorService,
+              public filtros: ServicioFiltros
   ) { 
 
   }
@@ -42,8 +49,22 @@ export class AtencionesComponent implements OnInit {
         //aca estoy trabajando con los datos VC
         var listaSummary = dataSummary.json();
         this.atenciones = listaSummary.Elementos;
-        
-        console.log(this.atenciones);
+        this.filtrosGlobales = listaSummary.FiltrosGlobales;
+        //procesamos los filtros
+        this.filtrosGlobales = this.filtros.entregaFiltrosSeccion(this.filtrosGlobales);
+        this.filtroAmbito =  this.filtros.entregaFiltroAmbito(this.atenciones);
+        this.filtroEspecialidad =  this.filtros.entregaFiltroEspecialidad(this.atenciones);
+        this.filtroTipoProfesional =  this.filtros.entregaFiltroTipoProfesional(this.atenciones);
+        this.filtroEstablecimientos =  this.filtros.entregaFiltroEstablecimiento(this.atenciones);
+        this.filtroPeriodo =  this.filtros.entregaFiltroFechas(this.atenciones);
+        /*
+        console.log(this.filtrosGlobales);
+        console.log(this.filtroAmbito);
+        console.log(this.filtroEspecialidad);
+        console.log(this.filtroTipoProfesional);
+        console.log(this.filtroEstablecimientos);
+        console.log(this.filtroPeriodo);
+        */
       },
       err => {
         this.loading = false;
