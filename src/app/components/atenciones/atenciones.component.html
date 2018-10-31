@@ -1,5 +1,109 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
-<div class="atenciones">
+
+<div class="container">
+    <div class="d-flex justify-content-sm-between flex-column flex-sm-row">
+      <!-- Button trigger modal -->
+      <div class="d-flex flex-sm-row flex-column">
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modalAntecedentes">
+          Antecedentes
+        </button>
+      </div>
+     
+      <div class="d-flex flex-sm-row flex-column">
+        <select class="custom-select" id="inputGroupSelect01">
+            <option selected>Choose...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
+          </div>
+        </div>
+        
+        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#modalFiltro">
+          Filtro <i class="fas fa-filter"></i>
+        </button>
+      </div>
+      
+    </div>
+</div>
+
+<!-- Modal filtros-->
+<div class="modal fade" id="modalFiltro" tabindex="-1" role="dialog" aria-labelledby="modalFiltro" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFiltro">Filtros adicionales</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Hola
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary mr-0" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+</div>
+  
+<!-- Modal antecedentes-->
+<div class="modal fade" id="modalAntecedentes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Antecedentes Hospitalarios y Ambulatorios</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="paciente">
+          <div class="row mb-3 align-items-center d-flex justify-content-center">
+            <div class="col-2 pr-0 text-center">
+                <img class="img-fluid" src="../../../assets/img/Mujer.png" width="60px" alt="icono medico">
+            </div>
+            <div class="col-sm-6 col-10">
+              <h6>{{paciente.NombreCompleto}}</h6>
+              <p *ngIf="paciente.IdentificacionPaciente" class="mb-0">RUN: {{paciente.IdentificacionPaciente.Run}}</p>
+              <p class="mb-1">Edad: {{paciente.FechaNacimiento}}</p>
+            </div>
+          </div>
+        </ng-container>
+          
+          <ng-container *ngIf="antecedentesFiltrados">
+            <ng-container *ngFor="let antec of antecedentesFiltrados; let i = index">
+      
+              <div class="card shadow resaltar pt-3 pb-3">
+                <div class="row align-items-center m-0">
+                  <div class="col-sm-1 text-center">
+                      <img src="../../../assets/img/medical-{{i}}.png" width="40px" alt="icono medico">
+                  </div>
+                  <div class="col-sm-11">
+                      <h5 class="mb-1">{{antec[0]}}</h5>
+                      <ng-container *ngFor="let ant of antec[1].string">
+                        <span><i class="fas fa-plus-circle"></i> {{ant}} </span>
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+      
+            </ng-container>
+          </ng-container>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary mr-0" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- arbol de detalles de atenciones -->
+<div class="atenciones container mt-3">
   <ng-container *ngFor="let atc of atenciones; let i = index">
     <div class="items primerCampo" data-toggle="collapse" [attr.data-target]="'#primero-'+ i" (click)="evento($event, atc)">
       <i class="far fa-plus-square avoid-clicks ml-1" [attr.id]="'icono-'+ i" *ngIf="atc.Elemento.length > 0"></i>

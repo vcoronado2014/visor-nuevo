@@ -27,6 +27,11 @@ export class AtencionesComponent implements OnInit {
   public filtroTipoProfesional = [];
   public filtroEstablecimientos = [];
   public filtroPeriodo = [];
+  public antecedentesMorbidos = {};
+  public antecedentesFiltrados = [];
+  public filtrados = [];
+  public paciente = [];
+  
   constructor(
               private router: ActivatedRoute,
               public visor: ServicioVisorService,
@@ -64,6 +69,11 @@ export class AtencionesComponent implements OnInit {
         console.log(this.filtroEstablecimientos);
         console.log(this.filtroPeriodo);
         */
+        this.antecedentesMorbidos = listaSummary.PacienteRayen.AntecedentesMorbidos;
+        this.paciente = listaSummary.PacienteFlorence;
+        console.log(listaSummary); 
+        this.filtrarAntecedentes(this.antecedentesMorbidos);
+        
       },
       err => {
         this.loading = false;
@@ -74,17 +84,35 @@ export class AtencionesComponent implements OnInit {
       }
     );
   }
+
+  filtrarAntecedentes(ants){
+   
+    const objArreglo = Object.entries(ants);
+    objArreglo.forEach( elem => {
+      elem.forEach (el => {
+        if(el.string){
+          if(el.string.length > 0){
+            this.antecedentesFiltrados.push(elem);
+          }
+        }
+      })
+    })
+    console.log(this.antecedentesFiltrados);
+  }
+
+  
+
   evento(e, p) {
     /* Evita acciones al hacer click al utlimo elemento */
     p.Elemento.forEach((ele, i) => {
       
       ele.forEach((el, u) => {
-        console.log(el);
+        /* console.log(el); */
         if(el.Elemento == null){
-          console.log(e.target.nextElementSibling.children[u].id);
+          /* console.log(e.target.nextElementSibling.children[u].id); */
           document.getElementById(e.target.nextElementSibling.children[u].id).classList.add('avoid-clicks');
         } else{
-          console.log("sin elementos");
+          console.log("con elementos");
         }
       });
       
