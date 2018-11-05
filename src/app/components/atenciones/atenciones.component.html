@@ -23,7 +23,7 @@
             <select class="custom-select m-1" id="inputGroupSelect01" 
                     [(ngModel)]="userGlobales"
                     (change)="cambioFiltrosGlobales($event)">
-              <option *ngFor="let filt of filtrosGlobales" value="filt.Activo">{{filt.Nombre}}</option>
+              <option *ngFor="let filt of filtrosGlobales">{{filt.Nombre}}</option>
             </select> 
           </ng-container>
         </ng-container>
