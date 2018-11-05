@@ -11,7 +11,8 @@
      
       <div class="d-flex flex-sm-row flex-column">
         <div class="input-group m-1">
-          <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="basic-addon2">
+          <input type="text" class="form-control" placeholder="Buscar por contenido" aria-label="Buscar" aria-describedby="basic-addon2"
+          [(ngModel)]="userBuscar">
           <div class="input-group-append">
             <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
           </div>
@@ -19,7 +20,9 @@
 
         <ng-container *ngIf="filtrosGlobales">
           <ng-container *ngIf="filtrosGlobales.length >1">
-            <select class="custom-select m-1" id="inputGroupSelect01" [(ngModel)]="userGlobales">
+            <select class="custom-select m-1" id="inputGroupSelect01" 
+                    [(ngModel)]="userGlobales"
+                    (change)="cambioFiltrosGlobales($event)">
               <option *ngFor="let filt of filtrosGlobales">{{filt.Nombre}}</option>
             </select> 
           </ng-container>

@@ -35,6 +35,7 @@ export class AtencionesComponent implements OnInit {
 
   // variables del front de los filtros
   public userGlobales;
+  public userBuscar;
   
   constructor(
               private router: ActivatedRoute,
@@ -104,7 +105,9 @@ export class AtencionesComponent implements OnInit {
     console.log(this.antecedentesFiltrados);
   }
 
-  
+  cambioFiltrosGlobales(e){
+    console.log(e.target.value);
+  }
 
   evento(e, p) {
     /* Evita acciones al hacer click al utlimo elemento */
