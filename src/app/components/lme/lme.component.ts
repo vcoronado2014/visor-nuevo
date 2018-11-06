@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import 'rxjs/add/operator/filter';
+
+
 //servicios
 import { ServicioVisorService } from '../../services/servicio-visor.service';
+import { elementProperty } from '@angular/core/src/render3/instructions';
 
 declare var JQuery :any;
 declare var $:any;
@@ -22,15 +25,15 @@ export class LmeComponent implements OnInit {
       "Folio": "874",
       "nombreDiagnostico": "Bronquitis",
       "diasDuracion": "11",
-      "fInicio": "",
-      "profesional": "Dra Elva Maurerira"
+      "fInicio": "21112000",
+      "profesional": "Dra Elva Maureira"
     },
     {
       "nnumeroLicencia": "067834",
       "Folio": "098",
       "nombreDiagnostico": "fractura tibia",
       "diasDuracion": "11",
-      "fInicio": "",
+      "fInicio": "11062016",
       "profesional": "Dr Patricio Stuardo"
     },  
     {
@@ -38,7 +41,7 @@ export class LmeComponent implements OnInit {
       "Folio": "675",
       "nombreDiagnostico": "",
       "diasDuracion": "",
-      "fInicio": "",
+      "fInicio": "13022017",
       "profesional": ""
     },  
     {
@@ -46,7 +49,7 @@ export class LmeComponent implements OnInit {
       "Folio": "234",
       "nombreDiagnostico": "rinofaringitis",
       "diasDuracion": "7",
-      "fInicio": "30132018",
+      "fInicio": "02092009",
       "profesional": ""
     },  
     {
@@ -54,7 +57,7 @@ export class LmeComponent implements OnInit {
       "Folio": "736",
       "nombreDiagnostico": "Amigdalitis",
       "diasDuracion": "7",
-      "fInicio": "",
+      "fInicio": "05062015",
       "profesional": "Dr Alejandro Rivas"
     },  
     {
@@ -62,7 +65,7 @@ export class LmeComponent implements OnInit {
       "Folio": "645",
       "nombreDiagnostico": "Gastritis",
       "diasDuracion": "5",
-      "fInicio": "",
+      "fInicio": "29092015",
       "profesional": "Dra Edna Contreras"
     },    
     {
@@ -70,7 +73,7 @@ export class LmeComponent implements OnInit {
       "Folio": "654",
       "nombreDiagnostico": "Ulcera",
       "diasDuracion": "8",
-      "fInicio": "",
+      "fInicio": "04082006",
       "profesional": "Dr Javiera Rojas"
     }  
 ]
@@ -82,8 +85,17 @@ export class LmeComponent implements OnInit {
   ngOnInit() {
     this.tablaLme();
   }
- 
-  tablaLme(){
+ // Filtrado por meses 
+  cargarMes(){
+    alert("carga de un mes ok");
+  };
+  
+  tablaLme(){   
+    this.lme.forEach(element =>{
+      // var fecha = moment(element.fInicio, "MM-DD-YYYY");
+      return console.log(element.fInicio);
+    })
+
     $(function(){
       $('#tablaLme').DataTable({
         data: this.lme,

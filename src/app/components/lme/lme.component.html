@@ -1,12 +1,12 @@
 <div class="filtrado-meses">
     <p>Meses: </p>
-    <select class="select-meses" id="inputGroupSelect01">
-        <option selected></option>
+    <select (change)="cargarMes()" class="select-meses" id="fMeses">
+        <option selected>Seleccione</option>
         <option value="1">1 mes</option>
         <option value="2">2 meses</option>
         <option value="3">3 meses</option>
-        <option value="3">9 meses</option>
-        <option value="3">12 meses</option>        
+        <option value="9">9 meses</option>
+        <option value="12">12 meses</option>        
     </select>
 </div>
 <div class="table-responsive">
