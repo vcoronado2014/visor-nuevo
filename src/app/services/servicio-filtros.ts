@@ -21,6 +21,7 @@ export class ServicioFiltros {
     fechaMaxima;
     diferenciaAnios;
     diferenciaMeses;
+    filtrados=[];
 
     constructor(
         private http: Http
@@ -346,5 +347,109 @@ export class ServicioFiltros {
             this.insertarPersonalizado(this.filtroPeriodo, '24 meses', true, true);
             this.insertarPersonalizado(this.filtroPeriodo, '36 meses', true, true);
         }
+    }
+    filtrarGlobal(atenciones, nombreFiltro){
+        this.filtrados = [];
+        atenciones.forEach(element => {
+            //aca debemos ir recorriendo los elementos para 
+            //determinar cuales son los que calzan con la 
+            //búsqueda
+            var entidadPrincipal = element;
+            if (element.Elemento) {
+              element.Elemento.forEach(elem => {
+                var entidad = elem[0];
+                if (entidad.Nombre == 'Actividad(es)'){
+                  if (nombreFiltro == 'Actividades/Procedimientos'){
+                    //hacemos push de la coincidencia
+                    this.filtrados.push(entidadPrincipal);
+                  }
+                }
+                if (entidad.Nombre == 'Diagnósticos'){
+                  if (nombreFiltro == 'Diagnósticos'){
+                    //hacemos push de la coincidencia
+                    this.filtrados.push(entidadPrincipal);
+                  }
+                }
+                if (entidad.Nombre == 'Receta(s)'){
+                  if (nombreFiltro == 'Prescripciones'){
+                    //hacemos push de la coincidencia
+                    this.filtrados.push(entidadPrincipal);
+                  }
+                }
+    
+              });
+            }
+          });
+          return this.filtrados;
+    }
+    verificaExisteObjetoGlobal(arreglo, item){
+        var retorno = false;
+        if (arreglo){
+            arreglo.forEach(element => {
+                if (element.Nombre == item.Nombre){
+                    //console.log('existe ' + item);
+                    retorno = true;
+                }
+            });
+        }
+        return retorno;
+    }
+    filtrarPorContenido(atenciones, contenido){
+        this.filtrados = [];
+        atenciones.forEach(element => {
+            //aca debemos ir recorriendo los elementos para 
+            //determinar cuales son los que calzan con la 
+            //búsqueda
+            var entidadPrincipal = element;
+            if (element.Elemento) {
+              element.Elemento.forEach(elem => {
+                var entidad = elem[0];
+                if (entidad.Nombre.toUpperCase().indexOf(contenido.toUpperCase())>=0){
+                    //el elemento existe, debemos agregarlo
+                    if (!this.verificaExisteObjetoGlobal(this.filtrados, entidadPrincipal)){
+                        this.filtrados.push(entidadPrincipal);
+                        return;
+                    }
+
+                }
+                else {
+                    //no está en el primer elemento, vamos al segundo
+                    if (entidad.Elemento && entidad.Elemento.length > 0){
+                        entidad.Elemento.forEach(eleUno => {
+                            var entidadUno = eleUno[0];
+                            if (entidadUno.Nombre.toUpperCase().indexOf(contenido.toUpperCase())>=0){
+                                //el elemento existe, debemos agregarlo
+                                if (!this.verificaExisteObjetoGlobal(this.filtrados, entidadPrincipal)){
+                                    this.filtrados.push(entidadPrincipal);
+                                    return;
+                                }
+                            }
+                            else {
+                                //no está en el segundo, vamos al tercero
+                                //siempre que exista
+                                if (entidadUno.Elemento && entidadUno.Elemento.length > 0){
+                                    entidadUno.Elemento.forEach(eleDos => {
+                                        var entidadDos = eleDos[0];
+                                        if (entidadDos.Nombre.toUpperCase().indexOf(contenido.toUpperCase()) >= 0) {
+                                            //el elemento existe, debemos agregarlo
+                                            if (!this.verificaExisteObjetoGlobal(this.filtrados, entidadPrincipal)){
+                                                this.filtrados.push(entidadPrincipal);
+                                                return;
+                                            }
+                                        }
+
+                                    });
+
+                                }
+                            }
+                        });
+                    }
+                }
+    
+              });
+            }
+          });
+
+        return this.filtrados;
     }
 }

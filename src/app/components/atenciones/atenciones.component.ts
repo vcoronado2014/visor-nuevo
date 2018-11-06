@@ -22,7 +22,7 @@ export class AtencionesComponent implements OnInit {
   public loading = false;
   public atenciones = [];
   public examenes = [];
-  public filtrosGlobales;
+  public filtrosGlobales = [];
   public filtroAmbito = [];
   public filtroEspecialidad = [];
   public filtroTipoProfesional = [];
@@ -32,6 +32,9 @@ export class AtencionesComponent implements OnInit {
   public antecedentesFiltrados = [];
   public filtrados = [];
   public paciente = [];
+  //atenciones inicial
+  public atencionesInicial = [];
+  public cantidadAtenciones = 0;
 
   // variables del front de los filtros
   public userGlobales;
@@ -51,22 +54,28 @@ export class AtencionesComponent implements OnInit {
   
   //obtener resumen del paciente
   obtenerResumenPaciente(tokenSession, idRyf, run){
+    //limpiamos los filtros
+    this.filtrosGlobales = [];
     this.loading = true;
     this.visor.getSummary(tokenSession, idRyf, run).subscribe(
       dataSummary => {
-        this.loading = false;
+        this.filtrosGlobales = [];
+        //this.loading = false;
         //aca estoy trabajando con los datos VC
         var listaSummary = dataSummary.json();
         this.atenciones = listaSummary.Elementos;
-        this.filtrosGlobales = listaSummary.FiltrosGlobales;
+        //guardamos esta variable para poder dejar una copia de todas las atenciones
+        this.atencionesInicial = this.atenciones;
+        //********************************************** */
+        var globalsFilter = listaSummary.FiltrosGlobales;
         //procesamos los filtros
-        this.filtrosGlobales = this.filtros.entregaFiltrosSeccion(this.filtrosGlobales);
+        this.filtrosGlobales = this.filtros.entregaFiltrosSeccion(globalsFilter);
         this.filtroAmbito =  this.filtros.entregaFiltroAmbito(this.atenciones);
         this.filtroEspecialidad =  this.filtros.entregaFiltroEspecialidad(this.atenciones);
         this.filtroTipoProfesional =  this.filtros.entregaFiltroTipoProfesional(this.atenciones);
         this.filtroEstablecimientos =  this.filtros.entregaFiltroEstablecimiento(this.atenciones);
         this.filtroPeriodo =  this.filtros.entregaFiltroFechas(this.atenciones);
-        
+        this.userGlobales = "-- seleccione --";
         console.log(this.filtrosGlobales);
         console.log(this.filtroAmbito);
         console.log(this.filtroEspecialidad);
@@ -74,10 +83,14 @@ export class AtencionesComponent implements OnInit {
         console.log(this.filtroEstablecimientos);
         console.log(this.filtroPeriodo);
        
-        this.antecedentesMorbidos = listaSummary.PacienteRayen.AntecedentesMorbidos;
         this.paciente = listaSummary.PacienteFlorence;
         console.log(listaSummary); 
-        this.filtrarAntecedentes(this.antecedentesMorbidos);
+        if (listaSummary.PacienteRayen){
+          this.antecedentesMorbidos = listaSummary.PacienteRayen.AntecedentesMorbidos;
+          this.filtrarAntecedentes(this.antecedentesMorbidos);
+        }
+        this.cantidadAtenciones = this.atenciones.length;
+        //this.loading = false;
         
       },
       err => {
@@ -85,6 +98,7 @@ export class AtencionesComponent implements OnInit {
         console.error(err);
       },
       () => {
+        this.loading = false;
         console.log('get info summary');
       }
     );
@@ -104,9 +118,84 @@ export class AtencionesComponent implements OnInit {
     })
     console.log(this.antecedentesFiltrados);
   }
+  filtrarPorContenido() {
+    //inicializamos el arreglo
+    this.atenciones = this.atencionesInicial;
+    //primero obtenemos el valor del filtro global para saber
+    //si debemos aplicarlo o no
+    var contenido = this.userBuscar;
+    var valorGlobal = this.userGlobales;
+    if (contenido && contenido.length >= 3){
+      //existe el filtro
+      if (this.userGlobales != '-- seleccione --'){
+        //ahora si que existe el filtro, hay que filtrarlo y buscar en dichos resultados.
+        this.filtrados = [];
+        //debemos filtrar por el grupo Principal
+        this.filtrados = this.filtros.filtrarGlobal(this.atenciones, this.userGlobales);
+        this.filtrados = this.filtros.filtrarPorContenido(this.filtrados,contenido);
+        if (this.filtrados){
+          this.atenciones = this.filtrados;
+          this.cantidadAtenciones = this.atenciones.length;
+        }
 
+      }
+      else {
+        //no hay filtro, hay que buscar en todo el arreglo
+        //dejamos la variable vacia
+        this.filtrados = [];
+        //debemos filtrar por el grupo Principal
+        this.filtrados = this.filtros.filtrarPorContenido(this.atenciones,contenido);
+        if (this.filtrados && this.filtrados.length > 0) {
+          this.atenciones = this.filtrados;
+          this.cantidadAtenciones = this.atenciones.length;
+        }
+        else {
+          //no hay resultados
+          this.atenciones = [];
+          this.cantidadAtenciones = 0;
+        }
+      }
+
+    }
+    else{
+      if (this.filtrados && this.filtrados.length > 0 && this.userGlobales != '-- seleccione --'){
+        this.filtrados = [];
+        //debemos filtrar por el grupo Principal
+        this.filtrados = this.filtros.filtrarGlobal(this.atencionesInicial, this.userGlobales);
+        this.atenciones = this.filtrados;
+        this.cantidadAtenciones = this.atenciones.length;
+        /*
+        this.atenciones = this.filtrados;
+        this.cantidadAtenciones = this.atenciones.length;
+        */
+      }
+      else{
+        //aca deberia ser todas
+        this.atenciones = this.atencionesInicial;
+        this.cantidadAtenciones = this.atenciones.length;
+      }
+
+    }
+  }
   cambioFiltrosGlobales(e){
-    console.log(e.target.value);
+    //console.log(e.target.value);
+    this.userBuscar = '';
+    if (e.target.value == '-- seleccione --'){
+      this.atenciones = this.atencionesInicial;
+      this.cantidadAtenciones = this.atenciones.length;
+      this.filtrados = [];
+    }
+    else {
+      //dejamos la variable vacia
+      this.filtrados = [];
+      this.atenciones = this.atencionesInicial;
+      //debemos filtrar por el grupo Principal
+      this.filtrados = this.filtros.filtrarGlobal(this.atenciones, e.target.value);
+      if (this.filtrados && this.filtrados.length > 0){
+        this.atenciones = this.filtrados;
+        this.cantidadAtenciones = this.atenciones.length;
+      }
+    }
   }
 
   evento(e, p) {
