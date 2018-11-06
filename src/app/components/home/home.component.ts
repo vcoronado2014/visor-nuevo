@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 //servicios
 import { ServicioVisorService } from '../../services/servicio-visor.service';
+import { ServicioFiltros } from '../../services/servicio-filtros';
 //Componentes 
 import { AtencionesComponent } from '../atenciones/atenciones.component';
 

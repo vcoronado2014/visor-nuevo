@@ -6,6 +6,7 @@ import { ModalModule } from 'ngx-modialog';
 import { BootstrapModalModule } from '../../node_modules/ngx-modialog/plugins/bootstrap';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule }    from '@angular/forms';
 // RUTAS
 import { APP_ROUTER } from './app.routes';
 import { RouterModule } from '@angular/router';
@@ -23,6 +24,8 @@ import { NgxLoadingModule } from 'ngx-loading';
 //Servicios
 import { ServicioVisorService } from './services/servicio-visor.service';
 import { AtencionesComponent } from './components/atenciones/atenciones.component';
+//para filtrar
+import { ServicioFiltros } from './services/servicio-filtros';
 
 
 
@@ -41,12 +44,13 @@ import { AtencionesComponent } from './components/atenciones/atenciones.componen
     HttpClientModule,
     HttpModule,
     BootstrapModalModule,
+    FormsModule,
     ToastModule.forRoot(),
     RouterModule.forRoot([]),
     APP_ROUTER,
     NgxLoadingModule
   ],
-  providers: [ServicioVisorService],
+  providers: [ServicioVisorService, ServicioFiltros],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,219 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+
+<div class="container">
+    <div class="d-flex justify-content-sm-between flex-column flex-sm-row">
+      <!-- Button trigger modal -->
+      <div class="d-flex flex-sm-row flex-column">
+        <button type="button" class="btn btn-outline-primary m-1" data-toggle="modal" data-target="#modalAntecedentes">
+          Antecedentes
+        </button>
+      </div>
+     
+      <div class="d-flex flex-sm-row flex-column">
+        <div class="input-group m-1">
+          <input type="text" class="form-control" placeholder="Buscar por contenido" aria-label="Buscar" (keyup)="filtrarPorContenido()" aria-describedby="basic-addon2"
+          [(ngModel)]="userBuscar">
+          <!--
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
+          </div>
+        -->
+        </div>
+
+        <ng-container *ngIf="filtrosGlobales">
+          <ng-container *ngIf="filtrosGlobales.length >1">
+            <select class="custom-select m-1" id="inputGroupSelect01" 
+                    [(ngModel)]="userGlobales"
+                    (change)="cambioFiltrosGlobales($event)">
+              <option *ngFor="let filt of filtrosGlobales">{{filt.Nombre}}</option>
+            </select> 
+          </ng-container>
+        </ng-container>
+        
+        <button class="btn btn-outline-primary m-1" data-toggle="modal" data-target="#modalFiltro">
+          Filtro <i class="fas fa-filter"></i>
+        </button>
+      </div>
+      
+    </div>
+</div>
+<div class="container">
+  <div class="alert alert-primary" role="alert" *ngIf="cantidadAtenciones >= 0" style="margin-top: 1.25rem;">
+    Se encontraron {{cantidadAtenciones}} coincidencias.
+  </div>
+</div>
+  
+<!-- Modal filtros-->
+<div class="modal fade" id="modalFiltro" tabindex="-1" role="dialog" aria-labelledby="modalFiltro" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFiltro">Filtrar Atenciones</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="filtroAmbito">Ámbito</label>
+              <select class="form-control" id="filtroAmbito">
+                <option *ngFor="let filt of filtroAmbito">{{filt.Nombre}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="filtroEspecialidad">Especialidad</label>
+              <select class="form-control" id="filtroEspecialidad">
+                <option *ngFor="let filt of filtroEspecialidad">{{filt.Nombre}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="filtroTipoProfesional">Tipo de Profesional</label>
+              <select class="form-control" id="filtroTipoProfesional">
+                <option *ngFor="let filt of filtroTipoProfesional">{{filt.Nombre}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="filtroEstablecimientos">Establecimiento</label>
+              <select class="form-control" id="filtroEstablecimientos">
+                <option *ngFor="let filt of filtroEstablecimientos">{{filt.Nombre}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="filtroPeriodo">Periodo</label>
+              <select class="form-control" id="filtroPeriodo">
+                <option *ngFor="let filt of filtroPeriodo">{{filt.Nombre}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <button class="btn btn-outline-primary">Limpiar filtros</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary">Filtrar</button>
+        </div>
+      </div>
+    </div>
+</div>
+  
+<!-- Modal antecedentes-->
+<div class="modal fade" id="modalAntecedentes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Antecedentes Hospitalarios y Ambulatorios</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="paciente">
+          <div class="row mb-3 align-items-center d-flex justify-content-center">
+            <div class="col-2 pr-0 text-center">
+                <img class="img-fluid" src="../../../assets/img/Mujer.png" width="60px" alt="icono medico">
+            </div>
+            <div class="col-sm-6 col-10">
+              <h6>{{paciente.NombreCompleto}}</h6>
+              <p *ngIf="paciente.IdentificacionPaciente" class="mb-0">RUN: {{paciente.IdentificacionPaciente.Run}}</p>
+              <p class="mb-1">Edad: {{paciente.FechaNacimiento}}</p>
+            </div>
+          </div>
+        </ng-container>
+          
+          <ng-container *ngIf="antecedentesFiltrados">
+            <ng-container *ngFor="let antec of antecedentesFiltrados; let i = index">
+      
+              <div class="card shadow resaltar pt-3 pb-3">
+                <div class="row align-items-center m-0">
+                  <div class="col-sm-1 text-center">
+                      <img src="../../../assets/img/medical-{{i}}.png" width="40px" alt="icono medico">
+                  </div>
+                  <div class="col-sm-11">
+                      <h5 class="mb-1">{{antec[0]}}</h5>
+                      <ng-container *ngFor="let ant of antec[1].string">
+                        <span><i class="fas fa-plus-circle"></i> {{ant}} </span>
+                      </ng-container>
+                  </div>
+                </div>
+              </div>
+      
+            </ng-container>
+          </ng-container>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary mr-0" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- arbol de detalles de atenciones -->
+<div class="atenciones container mt-3">
+  <ng-container *ngFor="let atc of atenciones; let i = index">
+    <div class="items primerCampo" data-toggle="collapse" [attr.data-target]="'#primero-'+ i" (click)="evento($event, atc)">
+      <i class="far fa-plus-square avoid-clicks ml-1" [attr.id]="'icono-'+ i" *ngIf="atc.Elemento.length > 0"></i>
+      <ng-container *ngIf="atc.Servicio == 'Florence'"><i class="fas fa-hospital"></i></ng-container>
+      <ng-container *ngIf="atc.Servicio == 'Rayen'"><i class="fas fa-briefcase-medical"></i></ng-container> 
+      {{atc.Nombre}} 1° ({{atc.Elemento.length}})
+    </div>
+
+    <ng-container *ngIf="atc.Elemento">
+      <ul class="collapse mb-2 pl-3" [attr.id]="'primero-'+ i">
+        <ng-container *ngFor="let aux of atc.Elemento; let h = index">
+            <li class="conLinea" [attr.id]="'lista-'+i+h+e" *ngFor="let dts of aux; let e = index" > 
+              <div data-toggle="collapse" class="segundoCampo" [attr.data-target]="'#segundo-'+i+h+e" (click)="evento($event, dts)">
+                <i class="far fa-plus-square avoid-clicks ml-1" [attr.id]="'icono-'+i+h+e" *ngIf="dts.Elemento.length > 0"></i> {{dts.Nombre}} 2° ({{dts.Elemento.length}})
+              </div>
+        
+              <ng-container *ngIf="dts.Elemento">
+                <ul class="collapse" [attr.id]="'segundo-'+i+h+e"> 
+                  <ng-container *ngFor="let sec of dts.Elemento">
+                    <li class="conLinea" [attr.id]="'lista-'+i+h+e+j" *ngFor="let ins of sec; let j = index">
+                      <div data-toggle="collapse" [attr.data-target]="'#tercero-'+i+h+e+j" (click)="evento($event, ins)">
+                        <i class="far fa-plus-square avoid-clicks ml-1" [attr.id]="'icono-'+i+h+e+j" *ngIf="ins.Elemento"></i> {{ins.Nombre}} 3° {{j}} <span *ngIf="ins.Elemento">({{ins.Elemento.length}})</span>  
+                      </div>
+          
+                      <ng-container *ngIf="ins.Elemento">
+                        <ul class="collapse" [attr.id]="'tercero-'+i+h+e+j">
+                          <ng-container *ngFor="let sip of ins.Elemento">
+                            <li class="conLinea" [attr.id]="'lista-'+i+h+e+j+k" *ngFor="let elem of sip; let k = index">
+                              <div data-toggle="collapse" [attr.data-target]="'#cuarto-'+i+h+e+j+k" (click)="evento($event, elem)">
+                                <i class="far fa-plus-square avoid-clicks ml-1" [attr.id]="'icono-'+i+h+e+j+k" *ngIf="elem.Elemento"></i> {{elem.Nombre}} 4° {{k}} <span *ngIf="elem.Elemento">({{elem.Elemento.length}})</span>
+                              </div>
+                              
+                              <!-- <ng-container *ngIf="elem.Elemento">
+                                <ul class="collapse" [attr.id]="'cuarto-'+i+h+e+j+k">
+                                  <ng-container *ngFor="let po of elem.Elemento">
+                                    <li class="conLinea" [attr.id]="'lista5-'+i+h+e+j+k" *ngFor="let el of po">
+                                      <div>{{po.Nombre}} 5°</div> 
+                                    </li>
+                                  </ng-container>
+                                </ul>
+                              </ng-container> -->
+
+                            </li>
+                          </ng-container>
+                        </ul>
+                      </ng-container>
+                      
+                    </li>
+                  </ng-container>
+                </ul> 
+    
+              </ng-container>
+        
+            </li>
+          
+        </ng-container>
+      </ul>
+    </ng-container>
+  </ng-container>
+</div>
