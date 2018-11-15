@@ -24,8 +24,11 @@ import { NgxLoadingModule } from 'ngx-loading';
 //Servicios
 import { ServicioVisorService } from './services/servicio-visor.service';
 import { AtencionesComponent } from './components/atenciones/atenciones.component';
-//para filtrar
 import { ServicioFiltros } from './services/servicio-filtros';
+import { ServicioLaboratorioService } from "./services/servicio-laboratorio.service";
+
+
+
 
 
 
@@ -50,7 +53,7 @@ import { ServicioFiltros } from './services/servicio-filtros';
     APP_ROUTER,
     NgxLoadingModule
   ],
-  providers: [ServicioVisorService, ServicioFiltros],
+  providers: [ServicioVisorService, ServicioFiltros,ServicioLaboratorioService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

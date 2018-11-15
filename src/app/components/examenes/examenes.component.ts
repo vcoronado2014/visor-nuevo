@@ -1,9 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 
 import 'rxjs/add/operator/filter';
 //servicios
 import { ServicioVisorService } from '../../services/servicio-visor.service';
+import { ServicioLaboratorioService } from "../../services/servicio-laboratorio.service";
+
 
 declare var JQuery :any;
 declare var $:any;
@@ -15,201 +18,187 @@ declare var $:any;
 })
 export class ExamenesComponent implements OnInit {
 
-  examen = [
-    {
-      "FechaHoraTomaMuestra": "3010205",
-      "NombreExamen": "",
-      "Estado": "3761820",
-      "Unidad": "Broncopulmonar",
-      "Valor": "asma",
-      "ValoresReferencia": "13-08-2015",
-      "NumeroOrden":"",
-      "FechaHoraSolicitud":"",
-      "FechaHoraResultado":"",
-      "VAnormal":""
-    },   
-    {
-      "FechaHoraTomaMuestra": "atendido",
-      "NombreExamen": "",
-      "Estado": "3761820",
-      "Unidad": "Broncopulmonar",
-      "Valor": "asma",
-      "ValoresReferencia": "13-08-2015",
-      "NumeroOrden":"",
-      "FechaHoraSolicitud":"",
-      "FechaHoraResultado":"",
-      "VAnormal":""
-    },
-    {
-      "FechaHoraTomaMuestra": "atendido",
-      "NombreExamen": "",
-      "Estado": "3761820",
-      "Unidad": "Broncopulmonar",
-      "Valor": "asma",
-      "ValoresReferencia": "13-08-2015",
-      "NumeroOrden":"",
-      "FechaHoraSolicitud":"",
-      "FechaHoraResultado":"",
-      "VAnormal":""
-    },
-    {
-      "FechaHoraTomaMuestra": "atendido",
-      "NombreExamen": "",
-      "Estado": "3761820",
-      "Unidad": "Broncopulmonar",
-      "Valor": "asma",
-      "ValoresReferencia": "13-08-2015",
-      "NumeroOrden":"",
-      "FechaHoraSolicitud":"",
-      "FechaHoraResultado":"",
-      "VAnormal":""
-    },
-    {
-      "FechaHoraTomaMuestra": "atendido",
-      "NombreExamen": "",
-      "Estado": "3761820",
-      "Unidad": "Broncopulmonar",
-      "Valor": "asma",
-      "ValoresReferencia": "13-08-2015",
-      "NumeroOrden":"",
-      "FechaHoraSolicitud":"",
-      "FechaHoraResultado":"",
-      "VAnormal":""
-    }   
-]
   public loading = true;
-  public examenes = [];
-  table:any; 
+  public resultado = [];
+  public dataExam = [];
+  public now = moment().format('LLLL');
+  table:any;  
 
   token = sessionStorage.getItem("PARAMETRO_FUC");
   idRyf = sessionStorage.getItem("ID_RYF");
   run = sessionStorage.getItem("IDENTIFICACION");
+  arregloExamenes = [];
 
   constructor(    private router: ActivatedRoute,
-                  public visor: ServicioVisorService
-) { }
+                  public visor: ServicioVisorService,
+                  public laboratorio : ServicioLaboratorioService
+) {
+  //this.obtenerExamenesPaciente('11311715K');
+ }
 
   ngOnInit() {
-  
-    this.tablaExam();
-    //  this.obtenerTablaPaciente(this.token,this.idRyf,this.run);
-
-
+     
+       this.obtenerExamenesPaciente('35807322');
   }
 
-  tablaExam(){
-    $(function(){
-      $('#examTable').DataTable({
-        data: this.examen,
+  procesarRespuesta(arregloOriginal){
+    var arrRetorno = [];
 
-          columns: [
-              { title: "F.H. Toma de Muestra", className:'text-left '},
-              { title: "Examen", className:'text-left ' },
-              { title: "Determinante", className:'text-left ' },
-              { title: "Unidad", className:'text-left ' },
-              { title: "Valor", className:'text-left'},
-              { title: "V. de Referencia", className:'text-left'},
-              { title: "V. Anormal", className:'text-left'},
-              { title: "Nº Orden", className:'text-left'},
-              { title: "F.H. Solicitud", className:'text-left'},
-              { title: "F.H Resultados", className:'text-left'}
-          ],
-        "info": false,
-        "searching": false,
-        "lengthMenu":false, 
-        "paging": false,
-          select: true,
-        "language": {
-          "sProcessing":     "Procesando...",
-          "sLengthMenu":     "Mostrar _MENU_ registros",
-          "sZeroRecords":    "No se encontraron resultados",
-          "sEmptyTable":     "Ningún dato disponible en esta tabla",
-          "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-          "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-          "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-          "sInfoPostFix":    "",
-          "sSearch":         "Buscar:",
-          "sUrl":            "",
-          "sInfoThousands":  ",",
-          "sLoadingRecords": "Cargando...",
-          "oPaginate": {
-              "sFirst":    "Primero",
-              "sLast":     "Último",
-              "sNext":     "Siguiente",
-              "sPrevious": "Anterior"
-          },
-          "oAria": {
-              "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-              "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-          }   
-        },      
-      });
-    });
-   }
-
-  // obtenerTablaPaciente(tokenSession, idRyf, run){
-  //   this.loading = true;
-  //   this.visor.getSummary(tokenSession, idRyf, run).subscribe(
-  //     dataSummary => {
-  //       var listaSummary = dataSummary.json();
-  //       this.examenes = listaSummary.OrdenesExamenes;
-  //       console.log(this.examenes);  
-  //       $(function(){
-  //         this.table =$('#examTable').DataTable({
-  //           columns: [
-  //               { title: "F.H. Toma de Muestra", className:'text-left '},
-  //               { title: "Examen", className:'text-left ' },
-  //               { title: "Determinante", className:'text-left ' },
-  //               { title: "Unidad", className:'text-left ' },
-  //               { title: "Valor", className:'text-left'},
-  //               { title: "V. de Referencia", className:'text-left'},
-  //               { title: "V. Anormal", className:'text-left'},
-  //               { title: "Nº Orden", className:'text-left'},
-  //               { title: "F.H. Solicitud", className:'text-left'},
-  //               { title: "F.H Resultados", className:'text-left'}
-  //           ],
-  //           "info": false,
-  //           "searching": false,
-  //           "lengthMenu":false, 
-  //           "paging": false,
-  //            select: true,
-  //           "language": {
-  //             "sProcessing":     "Procesando...",
-  //             "sLengthMenu":     "Mostrar _MENU_ registros",
-  //             "sZeroRecords":    "No se encontraron resultados",
-  //             "sEmptyTable":     "Ningún dato disponible en esta tabla",
-  //             "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-  //             "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-  //             "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-  //             "sInfoPostFix":    "",
-  //             "sSearch":         "Buscar:",
-  //             "sUrl":            "",
-  //             "sInfoThousands":  ",",
-  //             "sLoadingRecords": "Cargando...",
-  //             "oPaginate": {
-  //                 "sFirst":    "Primero",
-  //                 "sLast":     "Último",
-  //                 "sNext":     "Siguiente",
-  //                 "sPrevious": "Anterior"
-  //             },
-  //             "oAria": {
-  //                 "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-  //                 "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-  //             }   
-  //           },      
-  //         });
-  //       });             
-  //     },
-  //     err => {
-  //       this.loading = false;
-  //       console.error(err);
-  //     },
-  //     () => {
-  //       console.log('get tablaExamenes');
-  //     }
-  //   );
-  // }
-
+    arregloOriginal.forEach(orden => {
   
+      
+      if (orden.Examenes){
+        orden.Examenes.forEach(examen => {
+          if(examen.Resultados){
+            //si tiene resultados
+            examen.Resultados.forEach(resultado => {
+              var entidad = {
+                FechaTomaMuestra: '',
+                NombreExamen: '',
+                NombreMuestra: '',
+                //esto corresponde al estado, pero no sabemos si es de la orden o el examen
+                Determinante: '',
+                //este elemento no lo tenemos por mientras
+                Unidad:'',
+                Valor: '',
+                ValorReferencia: '',
+                ValorAnormal: false,
+                NumeroOrden: 0,
+                FechaSolictud: '',
+                FechaResultados: ''
+              };
+              entidad.NumeroOrden = orden.NumeroOrden;
+              entidad.FechaTomaMuestra = examen.FechaMuestra;
+              entidad.FechaResultados = examen.FechaResultado;
+              entidad.FechaSolictud = examen.FechaSolicitud;
+              entidad.NombreExamen = examen.NombreExamen;
+              entidad.Determinante = resultado.DescripcionResultado;
+              entidad.Valor = resultado.Resultado;
+              entidad.ValorReferencia = resultado.ValoresReferencia;
+              entidad.Unidad = resultado.Um;
+    
+              arrRetorno.push(entidad);
+            });
+          }
+          else{
+            //no tiene resultados
+            var entidad = {
+              FechaTomaMuestra: '',
+              NombreExamen: '',
+              NombreMuestra: '',
+              //esto corresponde al estado, pero no sabemos si es de la orden o el examen
+              Determinante: '',
+              //este elemento no lo tenemos por mientras
+              Unidad:'',
+              Valor: '',
+              ValorReferencia: '',
+              ValorAnormal: false,
+              NumeroOrden: 0,
+              FechaSolictud: '',
+              FechaResultados: ''
+            };
+            entidad.NumeroOrden = orden.NumeroOrden;
+            entidad.FechaTomaMuestra = examen.FechaMuestra;
+            entidad.FechaResultados = examen.FechaResultado;
+            entidad.FechaSolictud = examen.FechaSolictud;
+            entidad.NombreExamen = examen.NombreExamen;
+            arrRetorno.push(entidad);
+          }
+        });
+      }
+      else {
+        var entidad = {
+          FechaTomaMuestra: '',
+          NombreExamen: '',
+          NombreMuestra: '',
+          //esto corresponde al estado, pero no sabemos si es de la orden o el examen
+          Determinante: '',
+          //este elemento no lo tenemos por mientras
+          Unidad:'',
+          Valor: '',
+          ValorReferencia: '',
+          ValorAnormal: false,
+          NumeroOrden: 0,
+          FechaSolictud: '',
+          FechaResultados: ''
+        };
+        entidad.NumeroOrden = orden.NumeroOrden;
+        arrRetorno.push(entidad);
+      }
+
+      
+    });
+
+    return arrRetorno;
+  }
+
+
+  obtenerExamenesPaciente(run){
+    this.resultado = [];
+    this.loading = true;
+    this.laboratorio.postExamenes(run).subscribe(
+      data =>{      
+        if (data){
+          this.resultado = this.procesarRespuesta(data.json());
+          console.log(this.resultado)
+          $(function(){
+            this.table =$('#examTable').DataTable({
+              columns: [
+                  { title: "F.H. Toma de Muestra", className:'text-left '},
+                  { title: "Examen", className:'text-left ' },
+                  { title: "Determinante", className:'text-left ' },
+                  { title: "Unidad", className:'text-left ' },
+                  { title: "Valor", className:'text-left'},
+                  { title: "V. de Referencia", className:'text-left'},
+                  { title: "V. Anormal", className:'text-left'},
+                  { title: "Nº Orden", className:'text-left'},
+                  { title: "F.H. Solicitud", className:'text-left'},
+                  { title: "F.H Resultados", className:'text-left'}
+              ],
+              "info": false,
+              "searching": false,
+              "lengthMenu":false, 
+              "paging": false,
+               select: true,
+              "language": {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }   
+              },      
+            });
+          });
+        }  
+
+
+
+      },
+      err => {
+        this.loading = false;
+        console.error(err);
+      },
+      () => {
+        console.log('get tablaExamenes');
+      }
+    );
+  }
 
 }

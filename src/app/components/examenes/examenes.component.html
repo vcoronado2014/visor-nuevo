@@ -11,32 +11,28 @@
 </div>
 <div class="table-responsive">
     <table id="examTable" class="table table-striped table-bordered display table-sm table-hover nowrap" style="width:100%">
-        <tbody *ngIf="examen">
-            <tr *ngFor="let e of examen">
-              <!-- FECHA HORA -->
-                <td>{{e.FechaHoraTomaMuestra}}</td>
-                 <!--EXAMEN  -->
-                <td>{{e.NombreExamen}}</td>
-                <!-- DETERMINANTE -->
-                <td>{{e.Estado}}</td>
-                <!-- UNIDAD -->
-                <td>{{e.Unidad}}</td>
-                <!-- VALOR -->
-                <td>{{e.Valor}}</td>
-                <!-- vALORES DE REFERENCIA -->
-                <td>{{e.ValoresReferencia}}</td>
-                <!-- VALOR ANORMAL -->
-                <td>
-                    <div class="text-center">
-                        <input type="checkbox" name="" id="checkAnormal">
-                    </div>
-                </td>
-                <!-- NUMERO DE ORDEN -->
-                <td>{{e.NumeroOrden}}</td>
-                <!-- FECHA HORA SOLICITUD -->
-                <td>{{e.FechaHoraSolicitud}}</td>              
-                <!-- FECHA HORA RESULTADO -->
-                <td>{{e.FechaHoraResultado}}</td>                   
+        <tbody *ngIf="resultado">
+            <tr *ngFor="let i of resultado">
+                <!-- F.H Toma de muestra -->
+                <td>{{i.FechaTomaMuestra | date: 'dd-MM-yyyy HH:mm' }}</td>
+                <!-- Examen -->
+                <td>{{i.NombreExamen}}</td>
+                <!-- Determinante -->
+                <td>{{i.Determinante}}</td>    
+                <!-- Unidad -->
+                <td>{{i.Unidad}}</td>          
+                <!-- Valor -->
+                <td>{{i.Valor}}</td>      
+                <!-- Valor referencia -->
+                <td>{{i.ValorReferencia}}</td>       
+                <!-- Valor Anormal ESTE ES UN CHECKBOX-->
+                <td>{{i.ValorAnormal}}</td>    
+                <!-- Numero Orden -->
+                <td>{{i.NumeroOrden}}</td>   
+                <!-- F.H Solicitud -->
+                <td>{{i.FechaSolictud | date: 'dd-MM-yyyy HH:mm'}}</td>    
+                <!-- F.H Resultados -->
+                <td>{{i.FechaResultados | date: 'dd-MM-yyyy HH:mm'}}</td>                                                                                                                
             </tr>
         </tbody>
     </table>
