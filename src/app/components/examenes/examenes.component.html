@@ -10,7 +10,7 @@
     </select>
 </div>
 <div class="table-responsive">
-    <table id="examTable" class="table table-striped table-bordered display table-sm table-hover nowrap" style="width:100%">
+    <table id="examTable" class="table table-striped table-bordered compact display table-sm table-hover nowrap" style="width:100%">
         <tbody *ngIf="resultado">
             <tr *ngFor="let i of resultado">
                 <!-- F.H Toma de muestra -->
@@ -26,7 +26,7 @@
                 <!-- Valor referencia -->
                 <td>{{i.ValorReferencia}}</td>       
                 <!-- Valor Anormal ESTE ES UN CHECKBOX-->
-                <td>{{i.ValorAnormal}}</td>    
+                <td class="text-center"><input type="checkbox" disabled [checked]="i.ValorAnormal" ></td>    
                 <!-- Numero Orden -->
                 <td>{{i.NumeroOrden}}</td>   
                 <!-- F.H Solicitud -->

@@ -39,34 +39,51 @@ export class ExamenesComponent implements OnInit {
   ngOnInit() {
      
        this.obtenerExamenesPaciente('35807322');
+
+  }
+  
+ esAnormal(obj) {
+    let nuevoObj;
+    
+    let valor = parseFloat(obj.Valor);
+    let vRef = obj.ValorReferencia.split("-");
+    let vRefP1 = parseFloat(vRef[0]);
+    let vRefP2 = parseFloat(vRef[1]);
+
+    //console.log('Posicion uno ' + vRefP1 + 'Posicion dos ' + vRefP2);
+
+    if (valor > vRefP1 && valor < vRefP2) {
+      obj.ValorAnormal = false;
+    } else{
+      obj.ValorAnormal = true;
+    }
+    console.log(obj.ValorAnormal);
+    return obj.ValorAnormal;
   }
 
-  procesarRespuesta(arregloOriginal){
-    var arrRetorno = [];
 
+  procesarRespuesta(arregloOriginal) {
+    var arrRetorno = [];
     arregloOriginal.forEach(orden => {
-  
-      
-      if (orden.Examenes){
+      if (orden.Examenes) {
         orden.Examenes.forEach(examen => {
-          if(examen.Resultados){
+          if (examen.Resultados) {
             //si tiene resultados
             examen.Resultados.forEach(resultado => {
               var entidad = {
                 FechaTomaMuestra: '',
                 NombreExamen: '',
                 NombreMuestra: '',
-                //esto corresponde al estado, pero no sabemos si es de la orden o el examen
                 Determinante: '',
-                //este elemento no lo tenemos por mientras
-                Unidad:'',
+                Unidad: '',
                 Valor: '',
-                ValorReferencia: '',
+                ValorReferencia:'',
                 ValorAnormal: false,
                 NumeroOrden: 0,
                 FechaSolictud: '',
                 FechaResultados: ''
               };
+
               entidad.NumeroOrden = orden.NumeroOrden;
               entidad.FechaTomaMuestra = examen.FechaMuestra;
               entidad.FechaResultados = examen.FechaResultado;
@@ -75,21 +92,22 @@ export class ExamenesComponent implements OnInit {
               entidad.Determinante = resultado.DescripcionResultado;
               entidad.Valor = resultado.Resultado;
               entidad.ValorReferencia = resultado.ValoresReferencia;
-              entidad.Unidad = resultado.Um;
-    
+              entidad.Unidad = resultado.Um? resultado.Um:'-';
+              entidad.ValorAnormal = this.esAnormal(entidad);
+
+              
               arrRetorno.push(entidad);
+              
             });
           }
-          else{
+          else {
             //no tiene resultados
             var entidad = {
               FechaTomaMuestra: '',
               NombreExamen: '',
               NombreMuestra: '',
-              //esto corresponde al estado, pero no sabemos si es de la orden o el examen
               Determinante: '',
-              //este elemento no lo tenemos por mientras
-              Unidad:'',
+              Unidad: '',
               Valor: '',
               ValorReferencia: '',
               ValorAnormal: false,
@@ -111,12 +129,10 @@ export class ExamenesComponent implements OnInit {
           FechaTomaMuestra: '',
           NombreExamen: '',
           NombreMuestra: '',
-          //esto corresponde al estado, pero no sabemos si es de la orden o el examen
           Determinante: '',
-          //este elemento no lo tenemos por mientras
-          Unidad:'',
+          Unidad: '',
           Valor: '',
-          ValorReferencia: '',
+          ValorReferencia: 0,
           ValorAnormal: false,
           NumeroOrden: 0,
           FechaSolictud: '',
@@ -126,13 +142,13 @@ export class ExamenesComponent implements OnInit {
         arrRetorno.push(entidad);
       }
 
-      
+
     });
 
     return arrRetorno;
   }
 
-
+  //ACA SE CONTRUYE LA TABLA Y EL LLAMDO DE LOS DATOS MP
   obtenerExamenesPaciente(run){
     this.resultado = [];
     this.loading = true;
@@ -140,12 +156,12 @@ export class ExamenesComponent implements OnInit {
       data =>{      
         if (data){
           this.resultado = this.procesarRespuesta(data.json());
-          console.log(this.resultado)
+          console.log(this.resultado);
           $(function(){
             this.table =$('#examTable').DataTable({
               columns: [
                   { title: "F.H. Toma de Muestra", className:'text-left '},
-                  { title: "Examen", className:'text-left ' },
+                  { title: "Examen", className:'text-left adjust' },
                   { title: "Determinante", className:'text-left ' },
                   { title: "Unidad", className:'text-left ' },
                   { title: "Valor", className:'text-left'},
@@ -160,7 +176,8 @@ export class ExamenesComponent implements OnInit {
               "lengthMenu":false, 
               "paging": false,
                select: true,
-              "language": {
+               "bAutoWidth": true,
+               "language": {
                 "sProcessing":     "Procesando...",
                 "sLengthMenu":     "Mostrar _MENU_ registros",
                 "sZeroRecords":    "No se encontraron resultados",
