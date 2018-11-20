@@ -43,8 +43,7 @@ export class ExamenesComponent implements OnInit {
   }
   
  esAnormal(obj) {
-    let nuevoObj;
-    
+   if (obj.ValorReferencia.length > 3) {
     let valor = parseFloat(obj.Valor);
     let vRef = obj.ValorReferencia.split("-");
     let vRefP1 = parseFloat(vRef[0]);
@@ -54,10 +53,11 @@ export class ExamenesComponent implements OnInit {
 
     if (valor > vRefP1 && valor < vRefP2) {
       obj.ValorAnormal = false;
-    } else{
+    } else {
       obj.ValorAnormal = true;
     }
-    console.log(obj.ValorAnormal);
+   }
+    //console.log(obj.ValorAnormal);
     return obj.ValorAnormal;
   }
 
@@ -158,7 +158,51 @@ export class ExamenesComponent implements OnInit {
           this.resultado = this.procesarRespuesta(data.json());
           console.log(this.resultado);
           $(function(){
+            $.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml) {
+              var esc = function (t) {
+                return t
+                  .replace(/&/g, '&amp;')
+                  .replace(/</g, '&lt;')
+                  .replace(/>/g, '&gt;')
+                  .replace(/"/g, '&quot;');
+              };
+
+              return function (d, type, row) {
+                // Order, search and type get the original data
+                if (type !== 'display') {
+                  return d;
+                }
+
+                if (typeof d !== 'number' && typeof d !== 'string') {
+                  return d;
+                }
+
+                d = d.toString(); // cast numbers
+
+                if (d.length < cutoff) {
+                  return d;
+                }
+
+                var shortened = d.substr(0, cutoff - 1);
+
+                // Find the last white space character in the string
+                if (wordbreak) {
+                  shortened = shortened.replace(/\s([^\s]*)$/, '');
+                }
+
+                // Protect against uncontrolled HTML input
+                if (escapeHtml) {
+                  shortened = esc(shortened);
+                }
+
+                return '<span class="ellipsis" title="' + esc(d) + '">' + shortened + '&#8230;</span>';
+              };
+            };            
             this.table =$('#examTable').DataTable({
+              columnDefs: [{
+                targets: 1,
+                render: $.fn.dataTable.render.ellipsis(10)
+              }],
               columns: [
                   { title: "F.H. Toma de Muestra", className:'text-left '},
                   { title: "Examen", className:'text-left adjust' },
@@ -171,36 +215,37 @@ export class ExamenesComponent implements OnInit {
                   { title: "F.H. Solicitud", className:'text-left'},
                   { title: "F.H Resultados", className:'text-left'}
               ],
-              "info": false,
-              "searching": false,
-              "lengthMenu":false, 
-              "paging": false,
-               select: true,
-               "bAutoWidth": true,
-               "language": {
-                "sProcessing":     "Procesando...",
-                "sLengthMenu":     "Mostrar _MENU_ registros",
-                "sZeroRecords":    "No se encontraron resultados",
-                "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":    "",
-                "sSearch":         "Buscar:",
-                "sUrl":            "",
-                "sInfoThousands":  ",",
+              "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
                 "sLoadingRecords": "Cargando...",
                 "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":     "Último",
-                    "sNext":     "Siguiente",
-                    "sPrevious": "Anterior"
+                  "sFirst": "Primero",
+                  "sLast": "Último",
+                  "sNext": "Siguiente",
+                  "sPrevious": "Anterior"
                 },
                 "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }   
-              },      
+                  "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+              },              
+              "paging": true,
+              "info": false,
+              "lengthChange": false, //este esconde el combo-box del menú
+              select: true,
+              "bAutoWidth": true,
+              "scrollCollapse": false,
+              "scrollX": false      
             });
           });
         }  
