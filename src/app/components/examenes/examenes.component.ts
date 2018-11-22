@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
@@ -37,27 +37,24 @@ export class ExamenesComponent implements OnInit {
  }
 
   ngOnInit() {
-     
+ 
        this.obtenerExamenesPaciente('35807322');
 
   }
   
- esAnormal(obj) {
-   if (obj.ValorReferencia.length > 3) {
-    let valor = parseFloat(obj.Valor);
-    let vRef = obj.ValorReferencia.split("-");
-    let vRefP1 = parseFloat(vRef[0]);
-    let vRefP2 = parseFloat(vRef[1]);
+  esAnormal(obj) {
+    if (obj.ValorReferencia.length > 3) {
+      let valor = parseFloat(obj.Valor);
+      let vRef = obj.ValorReferencia.split("-");
+      let vRefP1 = parseFloat(vRef[0]);
+      let vRefP2 = parseFloat(vRef[1]);
 
-    //console.log('Posicion uno ' + vRefP1 + 'Posicion dos ' + vRefP2);
-
-    if (valor > vRefP1 && valor < vRefP2) {
-      obj.ValorAnormal = false;
-    } else {
-      obj.ValorAnormal = true;
+      if (valor > vRefP1 && valor < vRefP2) {
+        obj.ValorAnormal = false;
+      } else {
+        obj.ValorAnormal = true;
+      }
     }
-   }
-    //console.log(obj.ValorAnormal);
     return obj.ValorAnormal;
   }
 
@@ -166,34 +163,23 @@ export class ExamenesComponent implements OnInit {
                   .replace(/>/g, '&gt;')
                   .replace(/"/g, '&quot;');
               };
-
               return function (d, type, row) {
                 // Order, search and type get the original data
-                if (type !== 'display') {
-                  return d;
-                }
+                if (type !== 'display') {return d;}
 
-                if (typeof d !== 'number' && typeof d !== 'string') {
-                  return d;
-                }
+                if (typeof d !== 'number' && typeof d !== 'string') { return d; }
 
                 d = d.toString(); // cast numbers
 
-                if (d.length < cutoff) {
-                  return d;
-                }
+                if (d.length < cutoff) { return d; }
 
                 var shortened = d.substr(0, cutoff - 1);
 
                 // Find the last white space character in the string
-                if (wordbreak) {
-                  shortened = shortened.replace(/\s([^\s]*)$/, '');
-                }
+                if (wordbreak) { shortened = shortened.replace(/\s([^\s]*)$/, ''); }
 
                 // Protect against uncontrolled HTML input
-                if (escapeHtml) {
-                  shortened = esc(shortened);
-                }
+                if (escapeHtml) { shortened = esc(shortened); }
 
                 return '<span class="ellipsis" title="' + esc(d) + '">' + shortened + '&#8230;</span>';
               };
@@ -201,7 +187,7 @@ export class ExamenesComponent implements OnInit {
             this.table =$('#examTable').DataTable({
               columnDefs: [{
                 targets: 1,
-                render: $.fn.dataTable.render.ellipsis(10)
+                render: $.fn.dataTable.render.ellipsis(20)
               }],
               columns: [
                   { title: "F.H. Toma de Muestra", className:'text-left '},
@@ -261,6 +247,13 @@ export class ExamenesComponent implements OnInit {
         console.log('get tablaExamenes');
       }
     );
-  }
+  };
+
+  // showTooltip() {
+  //   $('[data-toggle="tooltip"]').tooltip()
+  // };
+  // hideTooltip() {
+  //   $('#nombreExamen').tooltip('hide')
+  // };
 
 }

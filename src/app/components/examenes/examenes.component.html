@@ -16,7 +16,7 @@
                 <!-- F.H Toma de muestra -->
                 <td class="text-center">{{i.FechaTomaMuestra | date: 'dd-MM-yyyy HH:mm' }}</td>
                 <!-- Examen -->
-                <td>{{i.NombreExamen}}</td>
+                <td id="nombreExamen" data-toggle="tooltip" data-placement="top" title={{i.NombreExamen}}>{{i.NombreExamen}}</td>
                 <!-- Determinante -->
                 <td>{{i.Determinante}}</td>    
                 <!-- Unidad -->
