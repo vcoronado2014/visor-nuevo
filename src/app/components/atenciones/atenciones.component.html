@@ -1,46 +1,70 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
 
-<div class="container">
+<!-- filtros -->
+<div class="contenedor">
+  <ng-container *ngIf="atenciones">
     <div class="d-flex justify-content-sm-between flex-column flex-sm-row">
       <!-- Button trigger modal -->
       <div class="d-flex flex-sm-row flex-column">
-        <button type="button" class="btn btn-outline-primary m-1" data-toggle="modal" data-target="#modalAntecedentes">
+        <button type="button" class="btn btn-outline-primary ml-sm-0 m-1" data-toggle="modal" data-target="#modalAntecedentes">
           Antecedentes
         </button>
       </div>
      
       <div class="d-flex flex-sm-row flex-column">
-        <div class="input-group m-1">
-          <input type="text" class="form-control" placeholder="Buscar por contenido" aria-label="Buscar" (keyup)="filtrarPorContenido()" aria-describedby="basic-addon2"
+        <div class="input-group">
+          <input type="text" class="form-control m-1" placeholder="Buscar por contenido" aria-label="Buscar" (keyup)="filtrarPorContenido()" aria-describedby="basic-addon2"
           [(ngModel)]="userBuscar">
-          <!--
-          <div class="input-group-append">
-            <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
-          </div>
-        -->
         </div>
 
         <ng-container *ngIf="filtrosGlobales">
           <ng-container *ngIf="filtrosGlobales.length >1">
-            <select class="custom-select m-1" id="inputGroupSelect01" 
+            <select class="form-control m-1" id="inputGroupSelect01" 
                     [(ngModel)]="userGlobales"
                     (change)="cambioFiltrosGlobales($event)">
               <option *ngFor="let filt of filtrosGlobales">{{filt.Nombre}}</option>
             </select> 
           </ng-container>
         </ng-container>
+
+        <ng-container *ngIf="filtroPeriodo">
+          <div class="form-group col-md-3 p-0 m-1">
+            <!-- <label for="filtroPeriodo">Periodo</label> -->
+            <select class="form-control" id="filtroPeriodo"
+                    [(ngModel)]="userPeriodo"
+                    (change)="cambioFiltrosPeriodo($event)">
+              <option *ngFor="let filt of filtroPeriodo">{{filt.Nombre}}</option>
+            </select>
+          </div>
+        </ng-container>
         
-        <button class="btn btn-outline-primary m-1" data-toggle="modal" data-target="#modalFiltro">
+        <button class="btn btn-outline-primary m-1" data-toggle="modal" data-target="#modalFiltro"
+                (click)="abrirFiltros()">
           Filtro <i class="fas fa-filter"></i>
+        </button>
+
+        <button class="btn btn-outline-primary m-1" title="Limpiar filtros" (click)="limpiarTodosFiltros()">
+          <span class="d-block d-sm-none d-inline">Limpiar filtros</span> <span class="d-inline"><i class="fas fa-trash-alt"></i></span> 
         </button>
       </div>
       
     </div>
+  </ng-container>
 </div>
-<div class="container">
-  <div class="alert alert-primary" role="alert" *ngIf="cantidadAtenciones >= 0" style="margin-top: 1.25rem;">
-    Se encontraron {{cantidadAtenciones}} coincidencias.
-  </div>
+
+<!-- caja de conteo de atenciones -->
+<div class="contenedor">
+  <ng-container *ngIf="cantidadAtenciones > 1 || cantidadAtenciones == 0">
+      <div class="alert alert-primary" role="alert" *ngIf="cantidadAtenciones >= 0" style="margin-top: 1.25rem;">
+          Se encontraron {{cantidadAtenciones}} coincidencias.
+        </div>
+  </ng-container>
+  <ng-container *ngIf="cantidadAtenciones == 1">
+    <div class="alert alert-primary" role="alert" *ngIf="cantidadAtenciones >= 0" style="margin-top: 1.25rem;">
+      Se encontró {{cantidadAtenciones}} coincidencia.
+    </div>
+  </ng-container>
+  
 </div>
   
 <!-- Modal filtros-->
@@ -57,48 +81,48 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="filtroAmbito">Ámbito</label>
-              <select class="form-control" id="filtroAmbito">
-                <option *ngFor="let filt of filtroAmbito">{{filt.Nombre}}</option>
+              <select class="form-control" id="filtroAmbito"
+                      [(ngModel)]="modalAmbito"
+                      (change)="cambioFiltrosModal($event, 'ambito')">
+                <option [disabled]=!filt.Activo *ngFor="let filt of filtroAmbito">{{filt.Nombre}}</option>
               </select>
             </div>
             <div class="form-group col-md-6">
               <label for="filtroEspecialidad">Especialidad</label>
-              <select class="form-control" id="filtroEspecialidad">
-                <option *ngFor="let filt of filtroEspecialidad">{{filt.Nombre}}</option>
+              <select class="form-control" id="filtroEspecialidad"
+                      [(ngModel)]="modalEspecialidad"
+                      (change)="cambioFiltrosModal($event, 'especialidad')">
+                <option [disabled]=!filt.Activo *ngFor="let filt of filtroEspecialidad">{{filt.Nombre}}</option>
               </select>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="filtroTipoProfesional">Tipo de Profesional</label>
-              <select class="form-control" id="filtroTipoProfesional">
-                <option *ngFor="let filt of filtroTipoProfesional">{{filt.Nombre}}</option>
+              <select class="form-control" id="filtroTipoProfesional"
+                      [(ngModel)]="modalTipoProfesional"
+                      (change)="cambioFiltrosModal($event, 'profesional')">
+                <option [disabled]=!filt.Activo *ngFor="let filt of filtroTipoProfesional">{{filt.Nombre}}</option>
               </select>
             </div>
             <div class="form-group col-md-6">
               <label for="filtroEstablecimientos">Establecimiento</label>
-              <select class="form-control" id="filtroEstablecimientos">
-                <option *ngFor="let filt of filtroEstablecimientos">{{filt.Nombre}}</option>
+              <select class="form-control" id="filtroEstablecimientos"
+                      [(ngModel)]="modalEstablecimiento"
+                      (change)="cambioFiltrosModal($event, 'establecimiento')">
+                <option [disabled]=!filt.Activo *ngFor="let filt of filtroEstablecimientos">{{filt.Nombre}}</option>
               </select>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="filtroPeriodo">Periodo</label>
-              <select class="form-control" id="filtroPeriodo">
-                <option *ngFor="let filt of filtroPeriodo">{{filt.Nombre}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <button class="btn btn-outline-primary">Limpiar filtros</button>
+              <button class="btn btn-outline-primary" (click)="limpiarFiltros()">Limpiar filtros</button>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary">Filtrar</button>
+          <button type="button" class="btn btn-primary" (click)="mostrarAntecedentesFiltrados()">Filtrar</button>
         </div>
       </div>
     </div>
@@ -139,7 +163,7 @@
                   <div class="col-sm-11">
                       <h5 class="mb-1">{{antec[0]}}</h5>
                       <ng-container *ngFor="let ant of antec[1].string">
-                        <span><i class="fas fa-plus-circle"></i> {{ant}} </span>
+                        <span><!-- <i class="fas fa-plus-circle"></i> -->• {{ant}} </span>
                       </ng-container>
                   </div>
                 </div>
@@ -156,13 +180,15 @@
 </div>
 
 <!-- arbol de detalles de atenciones -->
-<div class="atenciones container mt-3">
+<div class="atenciones contenedor mt-3 mb-5">
   <ng-container *ngFor="let atc of atenciones; let i = index">
-    <div class="items primerCampo" data-toggle="collapse" [attr.data-target]="'#primero-'+ i" (click)="evento($event, atc)">
-      <i class="far fa-plus-square avoid-clicks ml-1" [attr.id]="'icono-'+ i" *ngIf="atc.Elemento.length > 0"></i>
-      <ng-container *ngIf="atc.Servicio == 'Florence'"><i class="fas fa-hospital"></i></ng-container>
-      <ng-container *ngIf="atc.Servicio == 'Rayen'"><i class="fas fa-briefcase-medical"></i></ng-container> 
-      {{atc.Nombre}} 1° ({{atc.Elemento.length}})
+    <div class="items primerCampo row" data-toggle="collapse" [attr.data-target]="'#primero-'+ i" (click)="evento($event, atc)">
+      <i class="far fa-plus-square avoid-clicks ml-1 iconoMas" [attr.id]="'icono-'+ i" *ngIf="atc.Elemento.length > 0"></i>
+      <span class="col-lg-5 col-11 avoid-clicks"> <ng-container *ngIf="atc.Servicio == 'Florence'"><i class="fas fa-hospital"></i></ng-container>
+        <ng-container *ngIf="atc.Servicio == 'Rayen'"><i class="fas fa-briefcase-medical"></i></ng-container> 
+        {{atc.Fecha}} | {{atc.Tipo}}
+      </span> 
+      <span class="col-lg-6 avoid-clicks">{{atc.Respuesta}}</span>  
     </div>
 
     <ng-container *ngIf="atc.Elemento">

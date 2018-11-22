@@ -1,7 +1,15 @@
 <!-- As a heading -->
 <div class={{sistema}}>
   <nav class="navbar navbar-light" class='header'>
-    <span class="navbar-brand mb-0 h1">Título</span>
+    <div class="contenedor">
+        <span class="navbar-brand mb-0 h1">Título</span>
+        <div class="form-inline float-right mt-2">
+           <a class="mr-1">Rayen <span class="badge badge-pill badge-danger">45</span></a>   
+           <a>Florence <span class="badge badge-pill badge-success">4</span></a>
+        </div>
+    </div>
+        
+    
   </nav>
   <nav class="navbar" class='subHeader'>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -20,7 +28,7 @@
     </ul>
   </nav>
 </div>
-<div class="tab-content mt-4 container-fluid" id="myTabContent">
+<div class="tab-content mt-4" id="myTabContent">
   <div class="tab-pane fade show" id="atencion" role="tabpanel" aria-labelledby="atencion-tab" routerLinkActive="active">
     <app-atenciones></app-atenciones>
   </div>
