@@ -93,7 +93,7 @@ export class LmeComponent implements OnInit {
   tablaLme(){   
     this.lme.forEach(element =>{
       // var fecha = moment(element.fInicio, "MM-DD-YYYY");
-      return console.log(element.fInicio);
+      //return console.log(element.fInicio);
     })
 
     $(function(){

@@ -72,8 +72,8 @@ export class SicComponent implements OnInit {
       columns: [
           { title: "Estado", className:'text-left '},
           { title: "Ges", className:'text-left ' },
-          { title: "NºSic", className:'text-left ' },
-          { title: "Epecialidad", className:'text-left ' },
+          { title: "Nº Sic", className:'text-left ' },
+          { title: "Especialidad", className:'text-left ' },
           { title: "Hipótesis Diagnóstica", className:'text-left'},
           { title: "Fecha Solicitud", className:'text-left'}
       ],
